@@ -17,6 +17,12 @@ BASE_URL = (
     "docs/en/docs/tutorial/"
 )
 
+CONCEPTS = {
+    "handling-errors": "Handle API errors using HTTPException",
+    "body-fields": "Validate and document model fields using Field",
+    "first-steps": "Create a FastAPI application and first route",
+}
+
 
 class HTMLTextParser(HTMLParser):
     """Extract readable text and title from an HTML document."""
@@ -157,7 +163,7 @@ def build_record(path: Path) -> Record:
     if not cleaned_text:
         raise ValueError("No readable text after cleaning")
 
-    section = extract_section(raw_text, title)
+    section = "Tutorial - User Guide"
 
     symbol_match = re.search(
         r"\b(HTTPException|RequestValidationError|"
@@ -176,7 +182,7 @@ def build_record(path: Path) -> Record:
     return Record(
         page_title=title,
         guide_section=section,
-        key_concept=title,
+        key_concept=CONCEPTS.get(path.stem, title),
         main_symbol=symbol,
         example_response=extract_example(raw_text),
         source_url=source_url,
