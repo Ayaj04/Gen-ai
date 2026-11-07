@@ -1,7 +1,16 @@
-from data.sample_records import records as sample_records
+# from data.sample_records import records as sample_records
+import json 
+from pathlib import Path
+
+DATA_FILE = (
+    Path(__file__).resolve().parent.parent
+    / "data"
+    / "records.json"
+)
 
 def load_records():
-    return[record.copy() for record in sample_records]
+    with DATA_FILE.open("r", encoding="utf-8") as file:
+        return json.load(file)
 
 def search(keyword):
     keyword = keyword.strip().casefold().lower()
