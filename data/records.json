@@ -1,24 +1,136 @@
 [
     {
-        "page_title": "First Steps { #first-steps }",
-        "guide_section": "First Steps { #first-steps }",
-        "key_concept": "FastAPI",
+        "page_title": "Body - Fields",
+        "guide_section": "Import Field",
+        "key_concept": "Body - Fields",
+        "main_symbol": "Query",
+        "example_response": "",
+        "source_url": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/body-fields.md"
+    },
+    {
+        "page_title": "Body - Multiple Parameters",
+        "guide_section": "Mix Path, Query and body parameters",
+        "key_concept": "Body - Multiple Parameters",
+        "main_symbol": "Path",
+        "example_response": "{\n    \"name\": \"Foo\",\n    \"description\": \"The pretender\",\n    \"price\": 42.0,\n    \"tax\": 3.2\n}",
+        "source_url": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/body-multiple-params.md"
+    },
+    {
+        "page_title": "Body - Nested Models",
+        "guide_section": "List fields",
+        "key_concept": "Body - Nested Models",
         "main_symbol": "FastAPI",
-        "example_response": "</div>\n\nIn the output, there's a line with something like:",
+        "example_response": "my_list: list[str]",
+        "source_url": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/body-nested-models.md"
+    },
+    {
+        "page_title": "Cookie Parameters",
+        "guide_section": "Import Cookie",
+        "key_concept": "Cookie Parameters",
+        "main_symbol": "Query",
+        "example_response": "",
+        "source_url": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/cookie-params.md"
+    },
+    {
+        "page_title": "Extra Data Types",
+        "guide_section": "Other data types",
+        "key_concept": "Extra Data Types",
+        "main_symbol": "Not identified",
+        "example_response": "",
+        "source_url": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/extra-data-types.md"
+    },
+    {
+        "page_title": "First Steps",
+        "guide_section": "Check it",
+        "key_concept": "First Steps",
+        "main_symbol": "FastAPI",
+        "example_response": "$ <font color=\"#4E9A06\">uv run fastapi</font> dev\n\n  <span style=\"background-color:#009485\"><font color=\"#D3D7CF\"> FastAPI </font></span>  Starting development server 🚀\n\n             Searching for package file structure from directories\n             with <font color=\"#3465A4\">__init__.py</font> files\n             Importing from <font color=\"#75507B\">/home/user/code/</font><font color=\"#AD7FA8\">awesomeapp</font>\n\n   <span style=\"background-color:#007166\"><font color=\"#D3D7CF\"> module </font></span>  🐍 main.py\n\n     <span style=\"background-color:#007166\"><font color=\"#D3D7CF\"> code </font></span>  Importing the FastAPI app object from the module with\n             the following code:\n\n             <u style=\"text-decoration-style:solid\">from </u><u style=\"text-decoration-style:solid\"><b>main</b></u><u style=\"text-decoration-style:solid\"> import </u><u style=\"text-decoration-style:solid\"><b>app</b></u>\n\n      <span style=\"background-color:#007166\"><font color=\"#D3D7CF\"> app </font></span>  ",
         "source_url": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/first-steps.md"
     },
     {
-        "page_title": "Handling Errors { #handling-errors }",
-        "guide_section": "Handling Errors { #handling-errors }",
-        "key_concept": "HTTPException",
+        "page_title": "Handling Errors",
+        "guide_section": "Use HTTPException",
+        "key_concept": "Handling Errors",
         "main_symbol": "HTTPException",
-        "example_response": "But if the client requests `http://example.com/items/bar` (a non-existent `item_id` `\"bar\"`), that client will receive an HTTP status code of 404 (the \"not found\" error), and a JSON response of:",
+        "example_response": "{\n  \"item\": \"The Foo Wrestlers\"\n}",
         "source_url": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/handling-errors.md"
     },
     {
+        "page_title": "Header Parameters",
+        "guide_section": "Import Header",
+        "key_concept": "Header Parameters",
+        "main_symbol": "Query",
+        "example_response": "X-Token: foo\nX-Token: bar",
+        "source_url": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/header-params.md"
+    },
+    {
+        "page_title": "Path Parameters and Numeric Validations",
+        "guide_section": "Import Path",
+        "key_concept": "Path Parameters and Numeric Validations",
+        "main_symbol": "Path",
+        "example_response": "",
+        "source_url": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/path-params-numeric-validations.md"
+    },
+    {
+        "page_title": "Path Parameters",
+        "guide_section": "Path parameters with types",
+        "key_concept": "Path Parameters",
+        "main_symbol": "Path",
+        "example_response": "{\"item_id\":\"foo\"}",
+        "source_url": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/path-params.md"
+    },
+    {
+        "page_title": "Query Parameter Models",
+        "guide_section": "Query Parameters with a Pydantic Model",
+        "key_concept": "Query Parameter Models",
+        "main_symbol": "Query",
+        "example_response": "https://example.com/items/?limit=10&tool=plumbus",
+        "source_url": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/query-param-models.md"
+    },
+    {
+        "page_title": "Query Parameters and String Validations",
+        "guide_section": "Additional validation",
+        "key_concept": "Query Parameters and String Validations",
+        "main_symbol": "Query",
+        "example_response": "q: str | None = None",
+        "source_url": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/query-params-str-validations.md"
+    },
+    {
+        "page_title": "Query Parameters",
+        "guide_section": "Defaults",
+        "key_concept": "Query Parameters",
+        "main_symbol": "Query",
+        "example_response": "http://127.0.0.1:8000/items/?skip=0&limit=10",
+        "source_url": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/query-params.md"
+    },
+    {
+        "page_title": "Request Files",
+        "guide_section": "Import File",
+        "key_concept": "Request Files",
+        "main_symbol": "File",
+        "example_response": "$ uv add python-multipart",
+        "source_url": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/request-files.md"
+    },
+    {
+        "page_title": "Response Model - Return Type",
+        "guide_section": "responsemodel Parameter",
+        "key_concept": "Response Model - Return Type",
+        "main_symbol": "FastAPI",
+        "example_response": "$ uv add email-validator",
+        "source_url": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/response-model.md"
+    },
+    {
+        "page_title": "Response Status Code",
+        "guide_section": "About HTTP status codes",
+        "key_concept": "Response Status Code",
+        "main_symbol": "FastAPI",
+        "example_response": "",
+        "source_url": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/response-status-code.md"
+    },
+    {
         "page_title": "Tutorial - User Guide - FastAPI",
-        "guide_section": "General Tutorial",
-        "key_concept": "FastAPI",
+        "guide_section": "Tutorial - User Guide - FastAPI",
+        "key_concept": "Tutorial - User Guide - FastAPI",
         "main_symbol": "FastAPI",
         "example_response": "",
         "source_url": "https://fastapi.tiangolo.com/tutorial/"
