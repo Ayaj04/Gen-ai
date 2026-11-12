@@ -14,11 +14,22 @@ while True:
     if choice =="1":
         print("FastApiGuide is a comprehensive resource for learning FastAPI, a modern web framework for building APIs with python. ")
 
-    elif choice =="2":
-        print("sample questions are:")
-        print("1. What is FastAPI?")
-        print("2. How to create an API using FastAPI?") 
-        print("3. How to handle requests and responses in FastAPI?")
+    
+    elif choice == "2":
+        print("Sample questions are:")
+
+        questions = [
+            "What is FastAPI?",
+            "How to create an API using FastAPI?",
+            "How to handle requests and responses in FastAPI?",
+            "How do I use path parameters in FastAPI?",
+            "How do I validate a JSON request body using Pydantic?",
+            "How can I deploy FastAPIGuide to AWS ECS using Terraform and a CI/CD pipeline?",
+        ]
+
+        for i, question in enumerate(questions, start=1):
+            print(f"{i}. {question}")
+
 
     elif choice =="3":
         topic = input("enter the topic you want to check:").lower()
