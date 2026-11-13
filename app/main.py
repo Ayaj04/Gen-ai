@@ -2,6 +2,8 @@
 from app.smart_search import rank_records
 from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel, Field
+from typing import Literal
+from app.llm import ChatResponse, generate_answer
 
 from app.records import (
     load_records,
@@ -102,3 +104,31 @@ def create_question(payload: QuestionIn):
         "saved": saved,
         "suggested_record": suggestions[0] if suggestions else None,
     }
+
+
+# 6. AI-powered chat
+class ChatRequest(BaseModel):
+    question: str = Field(min_length=3, max_length=500)
+    prompt_version: Literal["v1", "v2"] = "v2"
+
+
+@app.post("/chat", response_model=ChatResponse)
+def chat(payload: ChatRequest):
+
+    try:
+        return generate_answer(
+            question=payload.question,
+            prompt_version=payload.prompt_version,
+        )
+
+    except RuntimeError as exc:
+        raise HTTPException(
+            status_code=503,
+            detail=str(exc),
+        ) from exc
+
+    except Exception as exc:
+        raise HTTPException(
+            status_code=502,
+            detail="Unable to generate an LLM response",
+        ) from exc

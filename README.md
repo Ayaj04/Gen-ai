@@ -103,3 +103,62 @@ https://fastapi.tiangolo.com/tutorial/handling-errors/#use-httpexception
 FastAPIGuide uses TF-IDF and cosine similarity
 for document retrieval. It does not currently
 use an LLM to generate answers.
+
+## Day 06 - LLM Chatbot
+
+FastAPIGuide now supports LLM-based question answering
+using Groq.
+
+### Setup
+
+1. Install dependencies:
+
+       python -m pip install -r requirements.txt
+
+2. Copy `.env.example` to `.env`.
+
+3. Add your Groq API key to `.env`.
+
+4. Run the API:
+
+       python -m uvicorn app.main:app --reload
+
+5. Open http://127.0.0.1:8000/docs
+
+### Chat Endpoint
+
+POST /chat
+
+Example request:
+
+    {
+      "question": "How do I handle errors in FastAPI?",
+      "prompt_version": "v2"
+    }
+
+The response contains:
+- answer
+- confidence
+- follow_up
+
+### Prompts
+
+- prompts/system.txt
+- prompts/task_v1.txt
+- prompts/task_v2.txt
+
+### Evaluation
+
+See eval/prompt_compare.md for the results of testing
+two prompt versions on 10 user questions.
+
+### Security
+
+The real API key is stored in .env, which is excluded
+from Git. Only .env.example is committed.
+
+### Limitations
+
+LLM responses are not guaranteed to be correct.
+Some questions cannot be answered using the current
+documentation dataset.

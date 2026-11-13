@@ -1,0 +1,7 @@
+
+Answer the user's FastAPI question using the retrieved
+documentation.
+
+Explain the answer simply and provide a useful next question.
+
+Return the required JSON object.
