@@ -4,6 +4,7 @@ from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel, Field
 from typing import Literal
 from app.llm import ChatResponse, generate_answer
+from app.vectorstore import search_semantic
 
 from app.records import (
     load_records,
@@ -132,3 +133,25 @@ def chat(payload: ChatRequest):
             status_code=502,
             detail="Unable to generate an LLM response",
         ) from exc
+
+
+@app.get("/search/semantic")
+def semantic_search_endpoint(
+    q: str = Query(min_length=1),
+    limit: int = Query(default=5, ge=1, le=10),
+):
+    try:
+        hits = search_semantic(q, limit=limit)
+
+    except RuntimeError as exc:
+        raise HTTPException(
+            status_code=503,
+            detail=str(exc),
+        ) from exc
+
+    return {
+        "query": q,
+        "count": len(hits),
+        "results": hits,
+    }
+

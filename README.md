@@ -162,3 +162,49 @@ from Git. Only .env.example is committed.
 LLM responses are not guaranteed to be correct.
 Some questions cannot be answered using the current
 documentation dataset.
+
+## Day 07 - Semantic Search
+
+FastAPIGuide now supports embedding-based semantic search
+using Sentence Transformers and ChromaDB.
+
+### Create document chunks
+
+    python -m app.chunking
+
+### Test embeddings
+
+    python -m app.embed
+
+### Evaluate 10 user questions
+
+    python -m eval.run_search_eval
+
+Results are recorded in:
+eval/search_results.md
+
+### Build the Chroma vector index
+
+    python -m app.vectorstore
+
+The index is saved locally in data/chroma/.
+
+### Start the API
+
+    python -m uvicorn app.main:app --reload
+
+Open http://127.0.0.1:8000/docs
+
+### Semantic Search Endpoint
+
+GET /search/semantic?q=How%20do%20I%20handle%20errors
+
+The response contains relevant document chunks with
+their page titles, source URLs, and vector distances.
+
+### Limitations
+
+Semantic similarity does not guarantee a correct answer.
+
+Some questions, including the AWS ECS deployment question,
+are outside the currently collected documentation.
