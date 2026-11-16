@@ -5,6 +5,7 @@ from pydantic import BaseModel, Field
 from typing import Literal
 from app.llm import ChatResponse, generate_answer
 from app.vectorstore import search_semantic
+from app.rag import ask_question
 
 from app.records import (
     load_records,
@@ -154,4 +155,46 @@ def semantic_search_endpoint(
         "count": len(hits),
         "results": hits,
     }
+
+
+
+# Day 08 - RAG endpoint
+
+class AskRequest(BaseModel):
+    question: str = Field(min_length=3, max_length=500)
+    top_k: int = Field(default=3, ge=1, le=10)
+
+
+class Citation(BaseModel):
+    number: int
+    title: str
+    page: str
+    source: str
+
+
+class AskResponse(BaseModel):
+    answer: str
+    citations: list[Citation]
+
+
+@app.post("/ask", response_model=AskResponse)
+def ask(payload: AskRequest):
+    try:
+        return ask_question(
+            question=payload.question,
+            top_k=payload.top_k,
+        )
+
+    except RuntimeError as exc:
+        raise HTTPException(
+            status_code=503,
+            detail="RAG is unavailable. Check the "
+                   "Chroma index and Groq configuration.",
+        ) from exc
+
+    except Exception as exc:
+        raise HTTPException(
+            status_code=502,
+            detail="Unable to generate an answer.",
+        ) from exc
 

@@ -22,10 +22,13 @@ def get_collection():
     )
 
 
-def index_documents():
+def index_documents(chunk_size=120, overlap=25):
     """Embed and index all documentation chunks."""
 
-    chunks = build_chunks()
+    chunks = build_chunks(
+        chunk_size=chunk_size,
+        overlap=overlap,
+    )
 
     if not chunks:
         raise RuntimeError("No documentation chunks found")

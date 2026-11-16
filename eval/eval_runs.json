@@ -1,0 +1,915 @@
+{
+  "summaries": [
+    {
+      "name": "A",
+      "chunk_size": 120,
+      "overlap": 25,
+      "top_k": 3,
+      "retrieval_hits": 13,
+      "cited_answers": 12,
+      "q6_pass": true
+    },
+    {
+      "name": "B",
+      "chunk_size": 200,
+      "overlap": 40,
+      "top_k": 5,
+      "retrieval_hits": 13,
+      "cited_answers": 12,
+      "q6_pass": true
+    }
+  ],
+  "winner": {
+    "name": "A",
+    "chunk_size": 120,
+    "overlap": 25,
+    "top_k": 3,
+    "retrieval_hits": 13,
+    "cited_answers": 12,
+    "q6_pass": true
+  },
+  "results": [
+    {
+      "config": "A",
+      "question_id": "Q1",
+      "question": "What is FastAPI?",
+      "retrieved_pages": [
+        "request-forms",
+        "tutorial",
+        "tutorial"
+      ],
+      "retrieval_hit": true,
+      "answer": {
+        "answer": "I don't know based on the available FastAPIGuide documentation.",
+        "citations": []
+      },
+      "refused": true,
+      "valid_citations": false
+    },
+    {
+      "config": "A",
+      "question_id": "Q2",
+      "question": "How to create an API using FastAPI?",
+      "retrieved_pages": [
+        "tutorial",
+        "first-steps",
+        "first-steps"
+      ],
+      "retrieval_hit": true,
+      "answer": {
+        "answer": "I don't know based on the available FastAPIGuide documentation.",
+        "citations": []
+      },
+      "refused": true,
+      "valid_citations": false
+    },
+    {
+      "config": "A",
+      "question_id": "Q3",
+      "question": "How to handle requests and responses in FastAPI?",
+      "retrieved_pages": [
+        "response-status-code",
+        "request-forms",
+        "query-params-str-validations"
+      ],
+      "retrieval_hit": false,
+      "answer": {
+        "answer": "In FastAPI you handle requests by declaring parameters in the path, query, form, or body of an endpoint function. FastAPI automatically parses the incoming HTTP request and validates the data. For example, you can accept a query parameter, a form field, and return a JSON response with a specific status code:\n\n```python\nfrom fastapi import FastAPI, Form, Query\nfrom fastapi import status\n\napp = FastAPI()\n\n@app.post(\"/items/\", status_code=status.HTTP_201_CREATED)\nasync def create_item(\n    name: str = Query(..., description=\"Name of the item\"),\n    description: str = Form(..., description=\"Item description\")\n):\n    # Process the data (e.g., store in a database)\n    return {\"name\": name, \"description\": description}\n```\n\n- **Query parameters** are declared with `Query(...)` and are automatically documented and validated (see [3]).\n- **Form data** is declared with `Form(...)` and is encoded as `application/x-www-form-urlencoded` (see [2]).\n- The endpoint returns a JSON response and FastAPI sets the HTTP status code to `201 Created` using the convenience variable from `fastapi.status` (see [1]).\n\nFastAPI also automatically handles errors: if validation fails or an exception is raised, it returns an appropriate HTTP status code without you having to set it manually.\n\n**Supported**: true",
+        "citations": [
+          {
+            "number": 1,
+            "title": "Response Status Code",
+            "page": "response-status-code",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/response-status-code.md"
+          },
+          {
+            "number": 2,
+            "title": "Form Data",
+            "page": "request-forms",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/request-forms.md"
+          },
+          {
+            "number": 3,
+            "title": "Query Parameters and String Validations",
+            "page": "query-params-str-validations",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/query-params-str-validations.md"
+          }
+        ]
+      },
+      "refused": false,
+      "valid_citations": true
+    },
+    {
+      "config": "A",
+      "question_id": "Q4",
+      "question": "How do I use path parameters in FastAPI?",
+      "retrieved_pages": [
+        "path-params",
+        "body",
+        "path-params-numeric-validations"
+      ],
+      "retrieval_hit": true,
+      "answer": {
+        "answer": "In FastAPI you declare a path parameter by putting a name in curly braces in the route path, e.g. `/items/{item_id}`. The function that handles the route receives a parameter with the same name, and FastAPI will automatically extract the value from the URL. You can type‑hint the parameter and use `Path` for additional validation or metadata.\n\n```python\nfrom fastapi import FastAPI, Path\n\napp = FastAPI()\n\n@app.get(\"/items/{item_id}\")\nasync def read_item(\n    item_id: int = Path(..., title=\"The ID of the item to get\", ge=1)\n):\n    return {\"item_id\": item_id}\n```\n\nHere `item_id` is a path parameter that must be an integer greater than or equal to 1. The `Path` helper lets you add validation and documentation metadata.\n\nPath parameters can also be combined with query parameters, request bodies, or even nested paths that contain slashes (using Starlette’s internal tools) as described in the docs.\n\nCitations: [1] for the basic `{param}` syntax, [3] for using `Path` and validation.",
+        "citations": [
+          {
+            "number": 1,
+            "title": "Path Parameters",
+            "page": "path-params",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/path-params.md"
+          },
+          {
+            "number": 3,
+            "title": "Path Parameters and Numeric Validations",
+            "page": "path-params-numeric-validations",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/path-params-numeric-validations.md"
+          }
+        ]
+      },
+      "refused": false,
+      "valid_citations": true
+    },
+    {
+      "config": "A",
+      "question_id": "Q5",
+      "question": "How do I validate a JSON request body using Pydantic?",
+      "retrieved_pages": [
+        "body-nested-models",
+        "body",
+        "body-nested-models"
+      ],
+      "retrieval_hit": true,
+      "answer": {
+        "answer": "Define a Pydantic model that matches the JSON you expect, then declare a parameter of that type in your FastAPI path operation. FastAPI will automatically parse the request body into the model and run Pydantic validation – any validation errors result in a 422 response. For example:\n\n```python\nfrom fastapi import FastAPI\nfrom pydantic import BaseModel, HttpUrl\n\nclass Item(BaseModel):\n    name: str\n    price: float\n    tags: list[str] | None = None\n    image: HttpUrl | None = None  # example of a special Pydantic type\n\napp = FastAPI()\n\n@app.post(\"/items/\")\nasync def create_item(item: Item):\n    # `item` is already validated and parsed\n    return item\n```\n\nIf you need nested structures, you can nest Pydantic models or use complex types such as `dict[int, float]`; FastAPI will convert and validate them automatically (e.g., JSON keys that are strings but represent integers are converted to `int` keys) [1][3]. The request body is handled by FastAPI’s automatic parsing of Pydantic models [2].",
+        "citations": [
+          {
+            "number": 1,
+            "title": "Body - Nested Models",
+            "page": "body-nested-models",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/body-nested-models.md"
+          },
+          {
+            "number": 2,
+            "title": "Request Body",
+            "page": "body",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/body.md"
+          },
+          {
+            "number": 3,
+            "title": "Body - Nested Models",
+            "page": "body-nested-models",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/body-nested-models.md"
+          }
+        ]
+      },
+      "refused": false,
+      "valid_citations": true
+    },
+    {
+      "config": "A",
+      "question_id": "Q6",
+      "question": "How can I deploy FastAPIGuide to AWS ECS using Terraform and a CI/CD pipeline?",
+      "retrieved_pages": [
+        "first-steps",
+        "first-steps",
+        "first-steps"
+      ],
+      "retrieval_hit": false,
+      "answer": {
+        "answer": "I don't know based on the available FastAPIGuide documentation.",
+        "citations": []
+      },
+      "refused": true,
+      "valid_citations": false
+    },
+    {
+      "config": "A",
+      "question_id": "Q7",
+      "question": "How do I validate query parameters in FastAPI?",
+      "retrieved_pages": [
+        "query-params-str-validations",
+        "query-params-str-validations",
+        "query-params-str-validations"
+      ],
+      "retrieval_hit": true,
+      "answer": {
+        "answer": "In FastAPI you validate query parameters by using the `Query()` helper (or the equivalent `Annotated` syntax) and passing validation arguments such as `min_length`, `max_length`, `regex`, etc. FastAPI will automatically enforce these constraints, return a clear error to the client if the data is invalid, and include the validation in the OpenAPI schema.\n\nExample:\n```python\nfrom fastapi import FastAPI, Query\n\napp = FastAPI()\n\n@app.get(\"/items\")\nasync def read_items(\n    q: str | None = Query(\n        None,\n        min_length=3,\n        max_length=50,\n        regex=\"^[a-zA-Z0-9]+$\",\n        description=\"Search query\"\n    )\n):\n    return {\"q\": q}\n```\nHere `q` is an optional query parameter that must be 3–50 characters long and match the regex. If the client sends a value that violates these rules, FastAPI returns a 422 response with a clear error message.\n\nThis approach is described in the documentation sections on query parameters and string validations [1], [2], and [3].",
+        "citations": [
+          {
+            "number": 1,
+            "title": "Query Parameters and String Validations",
+            "page": "query-params-str-validations",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/query-params-str-validations.md"
+          },
+          {
+            "number": 2,
+            "title": "Query Parameters and String Validations",
+            "page": "query-params-str-validations",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/query-params-str-validations.md"
+          },
+          {
+            "number": 3,
+            "title": "Query Parameters and String Validations",
+            "page": "query-params-str-validations",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/query-params-str-validations.md"
+          }
+        ]
+      },
+      "refused": false,
+      "valid_citations": true
+    },
+    {
+      "config": "A",
+      "question_id": "Q8",
+      "question": "How can I return a 404 error for a missing record?",
+      "retrieved_pages": [
+        "handling-errors",
+        "handling-errors",
+        "handling-errors"
+      ],
+      "retrieval_hit": true,
+      "answer": {
+        "answer": "To return a 404 error for a missing record, raise an `HTTPException` with a 404 status code inside your path operation (or utility function). For example:\n\n```python\nfrom fastapi import FastAPI, HTTPException\n\napp = FastAPI()\n\n@app.get(\"/items/{item_id}\")\nasync def read_item(item_id: str):\n    item = get_item_from_db(item_id)  # your lookup logic\n    if not item:\n        raise HTTPException(status_code=404, detail=\"Item not found\")\n    return {\"item\": item}\n```\n\nWhen the client requests a non‑existent `item_id`, the server responds with a 404 status and a JSON body like `{\"detail\": \"Item not found\"}`. This approach is described in the documentation [1] and [2].",
+        "citations": [
+          {
+            "number": 1,
+            "title": "Handling Errors",
+            "page": "handling-errors",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/handling-errors.md"
+          },
+          {
+            "number": 2,
+            "title": "Handling Errors",
+            "page": "handling-errors",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/handling-errors.md"
+          }
+        ]
+      },
+      "refused": false,
+      "valid_citations": true
+    },
+    {
+      "config": "A",
+      "question_id": "Q9",
+      "question": "How do I set a response status code in FastAPI?",
+      "retrieved_pages": [
+        "response-status-code",
+        "response-status-code",
+        "response-status-code"
+      ],
+      "retrieval_hit": true,
+      "answer": {
+        "answer": "In FastAPI you can set the status code in the route decorator with the `status_code` argument, or by returning a `Response`/`JSONResponse` with a `status_code` field. FastAPI also provides convenient constants in `fastapi.status` (or `starlette.status`) so you can use names like `status.HTTP_201_CREATED` instead of raw numbers. For example:\n\n```python\nfrom fastapi import FastAPI, status\nfrom fastapi.responses import JSONResponse\n\napp = FastAPI()\n\n# Using the decorator\n@app.post(\"/items\", status_code=status.HTTP_201_CREATED)\nasync def create_item(item: dict):\n    return item\n\n# Returning a Response with a custom status code\n@app.get(\"/custom\")\nasync def custom():\n    return JSONResponse(content={\"msg\": \"ok\"}, status_code=status.HTTP_202_ACCEPTED)\n```\n\nThis sets the response status code to 201 for the POST route and 202 for the GET route, as documented in the tutorial on response status codes [1], [2], [3].",
+        "citations": [
+          {
+            "number": 1,
+            "title": "Response Status Code",
+            "page": "response-status-code",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/response-status-code.md"
+          },
+          {
+            "number": 2,
+            "title": "Response Status Code",
+            "page": "response-status-code",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/response-status-code.md"
+          },
+          {
+            "number": 3,
+            "title": "Response Status Code",
+            "page": "response-status-code",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/response-status-code.md"
+          }
+        ]
+      },
+      "refused": false,
+      "valid_citations": true
+    },
+    {
+      "config": "A",
+      "question_id": "Q10",
+      "question": "How do I control returned fields using a response model?",
+      "retrieved_pages": [
+        "response-model",
+        "response-model",
+        "response-model"
+      ],
+      "retrieval_hit": true,
+      "answer": {
+        "answer": "You can control which fields appear in the JSON response by using the `response_model` parameter on the path operation decorator and, if needed, the `response_model_include` and `response_model_exclude` options. The `response_model` tells FastAPI which Pydantic model to use for serializing the return value, so only the fields defined in that model will be sent back. If you want to quickly include or exclude specific attributes without creating a new model, you can pass a set of field names to `response_model_include` (to keep only those fields) or to `response_model_exclude` (to drop those fields) [1]. For example:\n\n```python\nfrom fastapi import FastAPI\nfrom pydantic import BaseModel\n\napp = FastAPI()\n\nclass Item(BaseModel):\n    id: int\n    name: str\n    description: str\n    price: float\n\n@app.get(\"/items/{item_id}\", response_model=Item, response_model_exclude={\"description\"})\nasync def read_item(item_id: int):\n    # The function could return more data, but only the fields in Item\n    # except \"description\" will be serialized.\n    return {\n        \"id\": item_id,\n        \"name\": \"Sample Item\",\n        \"description\": \"This will be omitted\",\n        \"price\": 9.99,\n        \"extra\": \"ignored\"\n    }\n```\n\nIf you need more complex filtering, you can create a separate Pydantic model that only contains the desired fields or use inheritance to build a lightweight response model. FastAPI will then use that model to filter the data, even if the function returns a richer object [2].",
+        "citations": [
+          {
+            "number": 1,
+            "title": "Response Model - Return Type",
+            "page": "response-model",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/response-model.md"
+          },
+          {
+            "number": 2,
+            "title": "Response Model - Return Type",
+            "page": "response-model",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/response-model.md"
+          }
+        ]
+      },
+      "refused": false,
+      "valid_citations": true
+    },
+    {
+      "config": "A",
+      "question_id": "Q11",
+      "question": "How can I read cookies in FastAPI?",
+      "retrieved_pages": [
+        "cookie-params",
+        "cookie-params",
+        "header-params"
+      ],
+      "retrieval_hit": true,
+      "answer": {
+        "answer": "To read a cookie in FastAPI you import the `Cookie` helper and declare a function parameter with it. FastAPI will automatically extract the cookie value from the request and pass it to your path operation.\n\n```python\nfrom fastapi import FastAPI, Cookie\n\napp = FastAPI()\n\n@app.get(\"/items/\")\nasync def read_items(token: str | None = Cookie(default=None)):\n    return {\"token\": token}\n```\n\nHere `token` will contain the value of the cookie named `token` if it is present; otherwise it will be `None`. The `Cookie` class is used instead of `Query` or `Path` to indicate that the value comes from a cookie, as described in the documentation [2] and the notes about cookie handling in the docs UI [1].",
+        "citations": [
+          {
+            "number": 1,
+            "title": "Cookie Parameters",
+            "page": "cookie-params",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/cookie-params.md"
+          },
+          {
+            "number": 2,
+            "title": "Cookie Parameters",
+            "page": "cookie-params",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/cookie-params.md"
+          }
+        ]
+      },
+      "refused": false,
+      "valid_citations": true
+    },
+    {
+      "config": "A",
+      "question_id": "Q12",
+      "question": "How can I access request headers in FastAPI?",
+      "retrieved_pages": [
+        "header-params",
+        "request-forms",
+        "first-steps"
+      ],
+      "retrieval_hit": true,
+      "answer": {
+        "answer": "You can declare a header parameter in a path operation function by using the `Header` dependency, just like you would use `Query`, `Path` or `Cookie`. FastAPI will automatically read the header from the incoming request and inject it into your function.\n\n```python\nfrom fastapi import FastAPI, Header\n\napp = FastAPI()\n\n@app.get(\"/items/\")\nasync def read_items(user_agent: str = Header(...)):\n    return {\"user_agent\": user_agent}\n```\n\nIn this example the `user_agent` parameter will contain the value of the `User-Agent` request header. FastAPI also handles underscore conversion, so a header like `x-custom-header` can be accessed with a variable named `x_custom_header`.\n\n[1]",
+        "citations": [
+          {
+            "number": 1,
+            "title": "Header Parameters",
+            "page": "header-params",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/header-params.md"
+          }
+        ]
+      },
+      "refused": false,
+      "valid_citations": true
+    },
+    {
+      "config": "A",
+      "question_id": "Q13",
+      "question": "How do I upload a file in FastAPI?",
+      "retrieved_pages": [
+        "request-files",
+        "request-files",
+        "request-files"
+      ],
+      "retrieval_hit": true,
+      "answer": {
+        "answer": "To upload a file in FastAPI you need to:\n1. Install the `python-multipart` package so the client can send multipart/form‑data.\n2. Import `File` and `UploadFile` from `fastapi`.\n3. Define a path operation that accepts a file parameter using `UploadFile = File(...)` (or `bytes = File(...)` for small files).\n4. The file will be available as an `UploadFile` object, from which you can read the contents, filename, etc.\n\nExample:\n```python\nfrom fastapi import FastAPI, File, UploadFile\n\napp = FastAPI()\n\n@app.post(\"/upload/\")\nasync def upload_file(file: UploadFile = File(...)):\n    contents = await file.read()  # read the file contents\n    return {\"filename\": file.filename, \"content_type\": file.content_type}\n```\nThis snippet shows a minimal endpoint that accepts a single file upload. For optional files you can set a default of `None`.\n\nCitations: [1] for installation and import, [2] for using `UploadFile` vs `bytes`, [3] for optional file handling.",
+        "citations": [
+          {
+            "number": 1,
+            "title": "Request Files",
+            "page": "request-files",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/request-files.md"
+          },
+          {
+            "number": 2,
+            "title": "Request Files",
+            "page": "request-files",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/request-files.md"
+          },
+          {
+            "number": 3,
+            "title": "Request Files",
+            "page": "request-files",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/request-files.md"
+          }
+        ]
+      },
+      "refused": false,
+      "valid_citations": true
+    },
+    {
+      "config": "A",
+      "question_id": "Q14",
+      "question": "How do I create nested Pydantic models?",
+      "retrieved_pages": [
+        "body-nested-models",
+        "body-nested-models",
+        "schema-extra-example"
+      ],
+      "retrieval_hit": true,
+      "answer": {
+        "answer": "To create nested Pydantic models in FastAPI, first define a Pydantic model for the nested part, then use that model as the type of a field in the outer model. FastAPI will automatically parse the nested JSON into the nested Pydantic model.\n\n```python\nfrom pydantic import BaseModel\n\n# Sub‑model\nclass Image(BaseModel):\n    url: str\n    width: int\n    height: int\n\n# Outer model that nests the sub‑model\nclass Item(BaseModel):\n    name: str\n    description: str | None = None\n    image: Image  # nested model\n```\n\nWhen a request body contains an `image` object, FastAPI will deserialize it into an `Image` instance and assign it to the `image` field of `Item`.\n\nThis approach works for arbitrarily deep nesting, as each attribute can itself be another Pydantic model. [1]",
+        "citations": [
+          {
+            "number": 1,
+            "title": "Body - Nested Models",
+            "page": "body-nested-models",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/body-nested-models.md"
+          }
+        ]
+      },
+      "refused": false,
+      "valid_citations": true
+    },
+    {
+      "config": "A",
+      "question_id": "Q15",
+      "question": "How do I accept form data in FastAPI?",
+      "retrieved_pages": [
+        "request-forms",
+        "request-forms",
+        "request-files"
+      ],
+      "retrieval_hit": true,
+      "answer": {
+        "answer": "In FastAPI you accept form data by declaring parameters with the `Form` dependency. FastAPI will read the request body as `application/x-www-form-urlencoded` (or `multipart/form-data` if files are included) and inject the values into your path operation function.\n\n```python\nfrom fastapi import FastAPI, Form\n\napp = FastAPI()\n\n@app.post(\"/login\")\nasync def login(username: str = Form(...), password: str = Form(...)):\n    return {\"username\": username, \"password\": password}\n```\n\nIf the form contains files you can use `File` together with `Form` and FastAPI will handle the `multipart/form-data` encoding automatically.\n\nThis approach is described in the FastAPI request‑forms tutorial, which explains that `Form` is used to declare form data input parameters and that the encoding is handled by FastAPI based on the media type of the request [1][2].",
+        "citations": [
+          {
+            "number": 1,
+            "title": "Form Data",
+            "page": "request-forms",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/request-forms.md"
+          },
+          {
+            "number": 2,
+            "title": "Form Data",
+            "page": "request-forms",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/request-forms.md"
+          }
+        ]
+      },
+      "refused": false,
+      "valid_citations": true
+    },
+    {
+      "config": "B",
+      "question_id": "Q1",
+      "question": "What is FastAPI?",
+      "retrieved_pages": [
+        "request-forms",
+        "tutorial",
+        "tutorial",
+        "request-files",
+        "first-steps"
+      ],
+      "retrieval_hit": true,
+      "answer": {
+        "answer": "I don't know based on the available FastAPIGuide documentation.",
+        "citations": []
+      },
+      "refused": true,
+      "valid_citations": false
+    },
+    {
+      "config": "B",
+      "question_id": "Q2",
+      "question": "How to create an API using FastAPI?",
+      "retrieved_pages": [
+        "first-steps",
+        "tutorial",
+        "first-steps",
+        "tutorial",
+        "body"
+      ],
+      "retrieval_hit": true,
+      "answer": {
+        "answer": "To create a FastAPI API, import the FastAPI class, create an instance, and add path operations (endpoints). For example:\n\n```python\nfrom fastapi import FastAPI\n\napp = FastAPI()  # create the FastAPI instance\n\n@app.get(\"/items/{item_id}\")\nasync def read_item(item_id: int):\n    return {\"item_id\": item_id}\n```\n\nThis defines a simple GET endpoint that returns the requested item ID. The `app` object is the main entry point for the API and can be run with `uvicorn` or `fastapi dev`.\n\nCitations: import and instance creation [1], path operation definition [1].",
+        "citations": [
+          {
+            "number": 1,
+            "title": "First Steps",
+            "page": "first-steps",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/first-steps.md"
+          }
+        ]
+      },
+      "refused": false,
+      "valid_citations": true
+    },
+    {
+      "config": "B",
+      "question_id": "Q3",
+      "question": "How to handle requests and responses in FastAPI?",
+      "retrieved_pages": [
+        "tutorial",
+        "request-forms",
+        "first-steps",
+        "response-model",
+        "request-files"
+      ],
+      "retrieval_hit": true,
+      "answer": {
+        "answer": "In FastAPI you handle requests by declaring *path operation* functions with decorators such as `@app.get()`, `@app.post()`, etc. The function parameters can be simple values, Pydantic models, `Form`, `File`, or `UploadFile` objects, and FastAPI will automatically parse the incoming request body, query parameters, headers, cookies, and form data for you. For example, a POST that receives JSON can be written as:\n\n```python\nfrom fastapi import FastAPI\nfrom pydantic import BaseModel\n\napp = FastAPI()\n\nclass Item(BaseModel):\n    name: str\n    price: float\n\n@app.post(\"/items\")\nasync def create_item(item: Item):\n    return item  # FastAPI will serialize this to JSON\n```\n\nThis uses the return type annotation to declare the response model. FastAPI validates the returned data, generates the OpenAPI schema, and serializes the response to JSON automatically [4].\n\nFor form data you can use `Form` and `File`:\n\n```python\nfrom fastapi import FastAPI, Form, File, UploadFile\n\napp = FastAPI()\n\n@app.post(\"/login\")\nasync def login(username: str = Form(...), password: str = Form(...)):\n    return {\"username\": username}\n\n@app.post(\"/upload\")\nasync def upload(file: UploadFile = File(...)):\n    content = await file.read()\n    return {\"filename\": file.filename, \"size\": len(content)}\n```\n\nFastAPI will parse `application/x-www-form-urlencoded` for `Form` and `multipart/form-data` for `File`/`UploadFile` [2][5].\n\nYou can also return custom responses by using the `Response` class or subclasses such as `HTMLResponse`, `FileResponse`, etc.:\n\n```python\nfrom fastapi import FastAPI, Response\nfrom fastapi.responses import HTMLResponse\n\napp = FastAPI()\n\n@app.get(\"/html\", response_class=HTMLResponse)\nasync def get_html():\n    return \"<h1>Hello</h1>\"\n```\n\nThe `response_class` parameter tells FastAPI to use a specific response type for that path operation [1].\n\nThese mechanisms together let you handle almost any kind of HTTP request and produce the appropriate response in FastAPI.",
+        "citations": [
+          {
+            "number": 1,
+            "title": "Tutorial - User Guide - FastAPI",
+            "page": "tutorial",
+            "source": "https://fastapi.tiangolo.com/tutorial/"
+          },
+          {
+            "number": 2,
+            "title": "Form Data",
+            "page": "request-forms",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/request-forms.md"
+          },
+          {
+            "number": 4,
+            "title": "Response Model - Return Type",
+            "page": "response-model",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/response-model.md"
+          },
+          {
+            "number": 5,
+            "title": "Request Files",
+            "page": "request-files",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/request-files.md"
+          }
+        ]
+      },
+      "refused": false,
+      "valid_citations": true
+    },
+    {
+      "config": "B",
+      "question_id": "Q4",
+      "question": "How do I use path parameters in FastAPI?",
+      "retrieved_pages": [
+        "query-params",
+        "body",
+        "path-params-numeric-validations",
+        "body-multiple-params",
+        "path-params-numeric-validations"
+      ],
+      "retrieval_hit": false,
+      "answer": {
+        "answer": "In FastAPI you declare a path parameter by putting a variable name in curly braces in the route path and then adding a function argument with the same name. The argument can be typed (e.g., int, str) and optionally wrapped with `Path` (or `Annotated` in newer versions) to add validation or metadata. Path parameters are always required and cannot have a default value.\n\nExample:\n```python\nfrom fastapi import FastAPI, Path\n\napp = FastAPI()\n\n@app.get(\"/items/{item_id}\")\nasync def read_item(item_id: int = Path(..., title=\"The ID of the item to get\")):\n    return {\"item_id\": item_id}\n```\n\nHere `item_id` is extracted from the URL path. You can also combine path parameters with query parameters or a request body; FastAPI will automatically route each argument to the correct source based on its type or whether it is wrapped in `Path`/`Query`/a Pydantic model [2][3].",
+        "citations": [
+          {
+            "number": 2,
+            "title": "Request Body",
+            "page": "body",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/body.md"
+          },
+          {
+            "number": 3,
+            "title": "Path Parameters and Numeric Validations",
+            "page": "path-params-numeric-validations",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/path-params-numeric-validations.md"
+          }
+        ]
+      },
+      "refused": false,
+      "valid_citations": true
+    },
+    {
+      "config": "B",
+      "question_id": "Q5",
+      "question": "How do I validate a JSON request body using Pydantic?",
+      "retrieved_pages": [
+        "body",
+        "body-nested-models",
+        "body-fields",
+        "schema-extra-example",
+        "body"
+      ],
+      "retrieval_hit": true,
+      "answer": {
+        "answer": "To validate a JSON request body with FastAPI, define a Pydantic model that represents the expected JSON structure, then use that model as a type annotation for a path operation function parameter. FastAPI will automatically read the request body as JSON, parse it into the model, and perform validation based on the model’s field types and constraints.\n\n```python\nfrom fastapi import FastAPI\nfrom pydantic import BaseModel\n\napp = FastAPI()\n\nclass Item(BaseModel):\n    name: str\n    description: str | None = None\n    price: float\n    tax: float | None = None\n\n@app.post(\"/items/\")\nasync def create_item(item: Item):\n    return item\n```\n\nIn this example, the `Item` model defines the expected JSON schema. When a POST request is sent to `/items/`, FastAPI will:\n1. Read the request body as JSON.\n2. Convert the JSON into an `Item` instance.\n3. Validate that `name` is a string, `price` is a float, and optional fields are handled correctly.\n\nIf the incoming JSON does not match the model (e.g., missing required fields or wrong types), FastAPI will return a 422 Unprocessable Entity response with validation errors.\n\nReferences: [5]",
+        "citations": [
+          {
+            "number": 5,
+            "title": "Request Body",
+            "page": "body",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/body.md"
+          }
+        ]
+      },
+      "refused": false,
+      "valid_citations": true
+    },
+    {
+      "config": "B",
+      "question_id": "Q6",
+      "question": "How can I deploy FastAPIGuide to AWS ECS using Terraform and a CI/CD pipeline?",
+      "retrieved_pages": [
+        "first-steps",
+        "tutorial",
+        "tutorial",
+        "first-steps",
+        "tutorial"
+      ],
+      "retrieval_hit": false,
+      "answer": {
+        "answer": "I don't know based on the available FastAPIGuide documentation.",
+        "citations": []
+      },
+      "refused": true,
+      "valid_citations": false
+    },
+    {
+      "config": "B",
+      "question_id": "Q7",
+      "question": "How do I validate query parameters in FastAPI?",
+      "retrieved_pages": [
+        "query-params-str-validations",
+        "query-params",
+        "query-params-str-validations",
+        "query-params-str-validations",
+        "query-param-models"
+      ],
+      "retrieval_hit": true,
+      "answer": {
+        "answer": "To validate query parameters in FastAPI you declare them in the path operation function and use the `Query` helper (or `Annotated` with `Query`) to add validation rules such as maximum/minimum length, regex patterns, or requiredness. For example, an optional string parameter `q` that must be at most 50 characters long and at least 3 characters when provided:\n\n```python\nfrom fastapi import FastAPI, Query\nfrom typing import Annotated\n\napp = FastAPI()\n\n@app.get(\"/items/\")\nasync def read_items(\n    q: Annotated[str | None, Query(max_length=50, min_length=3)] = None,\n):\n    return {\"q\": q}\n```\n\n- `q: str | None = None` makes the parameter optional (default `None`) [1].\n- `Query(max_length=50, min_length=3)` adds validation: the value must not exceed 50 characters and must be at least 3 characters long when supplied [3], [4].\n- If you omit the default value, the parameter becomes required; FastAPI will return a 422 error if it is missing or invalid, as shown in the tutorial example for a required `needy` parameter [2].\n\nFastAPI will automatically validate the incoming query string against these rules, return clear error messages for clients, and include the parameter documentation in the OpenAPI schema.\n",
+        "citations": [
+          {
+            "number": 1,
+            "title": "Query Parameters and String Validations",
+            "page": "query-params-str-validations",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/query-params-str-validations.md"
+          },
+          {
+            "number": 2,
+            "title": "Query Parameters",
+            "page": "query-params",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/query-params.md"
+          },
+          {
+            "number": 3,
+            "title": "Query Parameters and String Validations",
+            "page": "query-params-str-validations",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/query-params-str-validations.md"
+          },
+          {
+            "number": 4,
+            "title": "Query Parameters and String Validations",
+            "page": "query-params-str-validations",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/query-params-str-validations.md"
+          }
+        ]
+      },
+      "refused": false,
+      "valid_citations": true
+    },
+    {
+      "config": "B",
+      "question_id": "Q8",
+      "question": "How can I return a 404 error for a missing record?",
+      "retrieved_pages": [
+        "handling-errors",
+        "response-status-code",
+        "handling-errors",
+        "handling-errors",
+        "handling-errors"
+      ],
+      "retrieval_hit": true,
+      "answer": {
+        "answer": "To return a 404 error for a missing record, raise an `HTTPException` with `status_code=404` and an optional `detail` message. For example:\n\n```python\nfrom fastapi import FastAPI, HTTPException\n\napp = FastAPI()\n\n@app.get(\"/items/{item_id}\")\nasync def read_item(item_id: str):\n    item = get_item_from_db(item_id)  # your lookup logic\n    if not item:\n        raise HTTPException(status_code=404, detail=\"Item not found\")\n    return item\n```\n\nWhen the item is not found, FastAPI will automatically return a 404 response with the JSON body `{\"detail\": \"Item not found\"}`.\n\nThis approach is described in the documentation: raising an `HTTPException` with a 404 status code for a missing item [3] and the resulting JSON response [4].",
+        "citations": [
+          {
+            "number": 3,
+            "title": "Handling Errors",
+            "page": "handling-errors",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/handling-errors.md"
+          },
+          {
+            "number": 4,
+            "title": "Handling Errors",
+            "page": "handling-errors",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/handling-errors.md"
+          }
+        ]
+      },
+      "refused": false,
+      "valid_citations": true
+    },
+    {
+      "config": "B",
+      "question_id": "Q9",
+      "question": "How do I set a response status code in FastAPI?",
+      "retrieved_pages": [
+        "response-status-code",
+        "response-status-code",
+        "response-status-code",
+        "response-model",
+        "response-model"
+      ],
+      "retrieval_hit": true,
+      "answer": {
+        "answer": "In FastAPI you set the status code on the path‑operation decorator using the `status_code` (or `statuscode`) parameter. For example:\n\n```python\nfrom fastapi import FastAPI, status\n\napp = FastAPI()\n\n@app.post(\"/items/\", status_code=status.HTTP_201_CREATED)\nasync def create_item(item: dict):\n    return item\n```\n\nThe `status_code` argument accepts an integer or an `IntEnum` such as `http.HTTPStatus`. FastAPI will return that code and document it in the OpenAPI schema. The convenience constants are available in `fastapi.status` (which re‑exports `starlette.status`).\n\nReferences: [3] for the `status_code` parameter, [1] for the convenience status constants.",
+        "citations": [
+          {
+            "number": 1,
+            "title": "Response Status Code",
+            "page": "response-status-code",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/response-status-code.md"
+          },
+          {
+            "number": 3,
+            "title": "Response Status Code",
+            "page": "response-status-code",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/response-status-code.md"
+          }
+        ]
+      },
+      "refused": false,
+      "valid_citations": true
+    },
+    {
+      "config": "B",
+      "question_id": "Q10",
+      "question": "How do I control returned fields using a response model?",
+      "retrieved_pages": [
+        "response-model",
+        "response-model",
+        "response-model",
+        "response-model",
+        "response-model"
+      ],
+      "retrieval_hit": true,
+      "answer": {
+        "answer": "You can control which fields appear in the JSON response by using the `response_model` parameter on the path operation decorator and, if needed, the helper parameters `response_model_include`, `response_model_exclude`, or `response_model_exclude_unset`.  \n\n* `response_model_include` – a set of field names to keep in the response, dropping all others.  \n* `response_model_exclude` – a set of field names to drop, keeping the rest.  \n* `response_model_exclude_unset` – when set to `True`, any fields that were not explicitly set (i.e., only had default values) are omitted from the output.  \n\nExample:\n```python\nfrom fastapi import FastAPI\nfrom pydantic import BaseModel\n\napp = FastAPI()\n\nclass Item(BaseModel):\n    name: str\n    description: str | None = None\n    price: float\n    tax: float | None = None\n\n@app.get(\"/items/{item_id}\", response_model=Item,\n         response_model_include={\"name\", \"price\"})\nasync def read_item(item_id: int):\n    return Item(name=\"Foo\", price=50.2, description=\"A foo\", tax=5.0)\n```\nThe response will only contain `name` and `price`.\n\nIf you want to exclude fields that were not set, use:\n```python\n@app.get(\"/items/{item_id}\", response_model=Item,\n         response_model_exclude_unset=True)\n```\n\nThese options let you filter the output data while still benefiting from Pydantic validation and OpenAPI documentation.  \n\nCitations: [2] for `response_model_include`/`exclude`, [3] for `response_model_exclude_unset`.",
+        "citations": [
+          {
+            "number": 2,
+            "title": "Response Model - Return Type",
+            "page": "response-model",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/response-model.md"
+          },
+          {
+            "number": 3,
+            "title": "Response Model - Return Type",
+            "page": "response-model",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/response-model.md"
+          }
+        ]
+      },
+      "refused": false,
+      "valid_citations": true
+    },
+    {
+      "config": "B",
+      "question_id": "Q11",
+      "question": "How can I read cookies in FastAPI?",
+      "retrieved_pages": [
+        "cookie-params",
+        "cookie-params",
+        "query-param-models",
+        "header-params",
+        "header-params"
+      ],
+      "retrieval_hit": true,
+      "answer": {
+        "answer": "To read cookies in FastAPI, import the `Cookie` dependency and declare a cookie parameter in your path operation just like you would a query or path parameter. FastAPI will automatically extract the cookie value from the incoming request.\n\n```python\nfrom fastapi import FastAPI, Cookie\n\napp = FastAPI()\n\n@app.get(\"/items/\")\nasync def read_items(user_id: str = Cookie(...)):\n    return {\"user_id\": user_id}\n```\n\nIn this example, the `user_id` cookie is required (`...` indicates a required value). If the cookie is missing, FastAPI will return a 422 error. You can also provide a default value or use optional cookies.\n\nNote that the automatic API docs UI (`/docs`) will show the cookie parameter, but clicking **Execute** from the UI will not send cookies because the UI uses JavaScript that does not include them in the request. The cookie will be sent only when the request originates from a browser or a client that sends cookies.\n\nReferences: Cookie Parameters section of the FastAPI tutorial [1], [2].",
+        "citations": [
+          {
+            "number": 1,
+            "title": "Cookie Parameters",
+            "page": "cookie-params",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/cookie-params.md"
+          },
+          {
+            "number": 2,
+            "title": "Cookie Parameters",
+            "page": "cookie-params",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/cookie-params.md"
+          }
+        ]
+      },
+      "refused": false,
+      "valid_citations": true
+    },
+    {
+      "config": "B",
+      "question_id": "Q12",
+      "question": "How can I access request headers in FastAPI?",
+      "retrieved_pages": [
+        "header-params",
+        "request-files",
+        "body",
+        "request-forms",
+        "header-params"
+      ],
+      "retrieval_hit": true,
+      "answer": {
+        "answer": "In FastAPI you can access request headers by declaring function parameters that use the `Header` dependency. Import `Header` from `fastapi` and add a parameter to your path operation. FastAPI will read the corresponding HTTP header and inject its value into the parameter. For example:\n\n```python\nfrom fastapi import FastAPI, Header\n\napp = FastAPI()\n\n@app.get(\"/items/\")\nasync def read_items(x_token: str = Header(...)):\n    return {\"X-Token\": x_token}\n```\n\nHere `x_token` will contain the value of the `X-Token` header sent by the client. If a header can appear multiple times, declare the parameter as a list:\n\n```python\n@app.get(\"/items/\")\nasync def read_items(x_token: list[str] = Header(...)):\n    return {\"X-Token values\": x_token}\n```\n\nFastAPI automatically converts underscore‑separated parameter names to hyphenated header names, so `x_token` maps to `X-Token`.\n\nReferences: Header Parameters section of the FastAPI docs [5] and duplicate header example [1].",
+        "citations": [
+          {
+            "number": 1,
+            "title": "Header Parameters",
+            "page": "header-params",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/header-params.md"
+          },
+          {
+            "number": 5,
+            "title": "Header Parameters",
+            "page": "header-params",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/header-params.md"
+          }
+        ]
+      },
+      "refused": false,
+      "valid_citations": true
+    },
+    {
+      "config": "B",
+      "question_id": "Q13",
+      "question": "How do I upload a file in FastAPI?",
+      "retrieved_pages": [
+        "request-files",
+        "request-files",
+        "request-files",
+        "request-files",
+        "request-forms"
+      ],
+      "retrieval_hit": true,
+      "answer": {
+        "answer": "To upload a file in FastAPI you need to use the `File` dependency and optionally `UploadFile`. First install the `python-multipart` package so the server can parse multipart form data [2]. Then import `File` and `UploadFile` from FastAPI [2]. Define a path operation that accepts a file parameter. If you declare the parameter type as `bytes`, FastAPI will read the whole file into memory; if you use `UploadFile`, you can stream the file and access its metadata. Example:\n\n```python\nfrom fastapi import FastAPI, File, UploadFile\n\napp = FastAPI()\n\n@app.post(\"/upload/\")\nasync def upload_file(file: UploadFile = File(...)):\n    contents = await file.read()  # read file contents asynchronously\n    return {\"filename\": file.filename, \"content_type\": file.content_type, \"size\": len(contents)}\n```\n\nThis endpoint accepts a file sent as `multipart/form-data` and returns its name, MIME type, and size. The `File` dependency tells FastAPI to look for the file in the multipart body [1]. If you prefer to get the raw bytes directly, use `file: bytes = File(...)` instead of `UploadFile`.\n\nCitations: [1], [2], [3]",
+        "citations": [
+          {
+            "number": 1,
+            "title": "Request Files",
+            "page": "request-files",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/request-files.md"
+          },
+          {
+            "number": 2,
+            "title": "Request Files",
+            "page": "request-files",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/request-files.md"
+          },
+          {
+            "number": 3,
+            "title": "Request Files",
+            "page": "request-files",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/request-files.md"
+          }
+        ]
+      },
+      "refused": false,
+      "valid_citations": true
+    },
+    {
+      "config": "B",
+      "question_id": "Q14",
+      "question": "How do I create nested Pydantic models?",
+      "retrieved_pages": [
+        "body-nested-models",
+        "schema-extra-example",
+        "body-nested-models",
+        "body-nested-models",
+        "query-param-models"
+      ],
+      "retrieval_hit": true,
+      "answer": {
+        "answer": "To create nested Pydantic models in FastAPI, define one Pydantic model inside another as a field, or use it inside collections such as lists or sets. For example:\n\n```python\nfrom pydantic import BaseModel\nfrom typing import List, Optional\n\nclass Image(BaseModel):\n    url: str\n    name: Optional[str] = None\n\nclass Item(BaseModel):\n    name: str\n    description: Optional[str] = None\n    price: float\n    tax: Optional[float] = None\n    tags: List[str] = []\n    images: List[Image] = []  # nested list of Image models\n\nclass Offer(BaseModel):\n    items: List[Item]  # nested list of Item models\n```\n\nFastAPI will automatically parse, validate, and document this nested structure, producing JSON like:\n\n```json\n{\n  \"items\": [\n    {\n      \"name\": \"Foo\",\n      \"description\": \"The pretender\",\n      \"price\": 42.0,\n      \"tax\": 3.2,\n      \"tags\": [\"rock\", \"metal\", \"bar\"],\n      \"images\": [\n        {\"url\": \"http://example.com/baz.jpg\", \"name\": \"The Foo live\"},\n        {\"url\": \"http://example.com/dave.jpg\", \"name\": \"The Baz\"}\n      ]\n    }\n  ]\n}\n```\n\nThis demonstrates deeply nested models and lists of sub‑models, as described in the FastAPI tutorial on nested models [3].",
+        "citations": [
+          {
+            "number": 3,
+            "title": "Body - Nested Models",
+            "page": "body-nested-models",
+            "source": "https://raw.githubusercontent.com/fastapi/fastapi/master/docs/en/docs/tutorial/body-nested-models.md"
+          }
+        ]
+      },
+      "refused": false,
+      "valid_citations": true
+    },
+    {
+      "config": "B",
+      "question_id": "Q15",
+      "question": "How do I accept form data in FastAPI?",
+      "retrieved_pages": [
+        "request-forms",
+        "request-forms",
+        "request-files",
+        "request-forms",
+        "schema-extra-example"
+      ],
+      "retrieval_hit": true,
+      "answer": {
+        "answer": "I don't know based on the available FastAPIGuide documentation.",
+        "citations": []
+      },
+      "refused": true,
+      "valid_citations": false
+    }
+  ]
+}

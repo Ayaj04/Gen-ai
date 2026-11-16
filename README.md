@@ -208,3 +208,48 @@ Semantic similarity does not guarantee a correct answer.
 
 Some questions, including the AWS ECS deployment question,
 are outside the currently collected documentation.
+
+
+## Day 08 - RAG and Evaluation
+
+FastAPIGuide now uses Retrieval-Augmented Generation (RAG).
+
+The application retrieves relevant FastAPI documentation
+chunks from ChromaDB and sends them to Groq for generating
+answers with citations.
+
+### Run the RAG API
+
+    python -m app.vectorstore
+    python -m uvicorn app.main:app --reload
+
+Open http://127.0.0.1:8000/docs
+
+### Endpoint
+
+POST /ask
+
+Example request:
+
+    {
+      "question": "How do I handle errors in FastAPI?",
+      "top_k": 3
+    }
+
+The response contains an answer and source citations.
+
+If the available documentation cannot answer the question,
+the system should respond with "I don't know".
+
+### Evaluation
+
+The evaluation dataset contains 15 questions.
+
+Two configurations are compared using different chunk
+sizes and top-k retrieval settings.
+
+Run:
+
+    python -m eval.run_eval
+
+Detailed results are saved to eval/eval_runs.json.

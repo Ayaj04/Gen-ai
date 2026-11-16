@@ -1,0 +1,93 @@
+
+[
+  {
+    "id": "Q1",
+    "question": "What is FastAPI?",
+    "expected_pages": ["first-steps", "tutorial"],
+    "should_abstain": false
+  },
+  {
+    "id": "Q2",
+    "question": "How to create an API using FastAPI?",
+    "expected_pages": ["first-steps"],
+    "should_abstain": false
+  },
+  {
+    "id": "Q3",
+    "question": "How to handle requests and responses in FastAPI?",
+    "expected_pages": ["body", "response-model", "first-steps"],
+    "should_abstain": false
+  },
+  {
+    "id": "Q4",
+    "question": "How do I use path parameters in FastAPI?",
+    "expected_pages": ["path-params"],
+    "should_abstain": false
+  },
+  {
+    "id": "Q5",
+    "question": "How do I validate a JSON request body using Pydantic?",
+    "expected_pages": ["body", "body-fields"],
+    "should_abstain": false
+  },
+  {
+    "id": "Q6",
+    "question": "How can I deploy FastAPIGuide to AWS ECS using Terraform and a CI/CD pipeline?",
+    "expected_pages": [],
+    "should_abstain": true
+  },
+  {
+    "id": "Q7",
+    "question": "How do I validate query parameters in FastAPI?",
+    "expected_pages": ["query-params-str-validations", "query-params"],
+    "should_abstain": false
+  },
+  {
+    "id": "Q8",
+    "question": "How can I return a 404 error for a missing record?",
+    "expected_pages": ["handling-errors"],
+    "should_abstain": false
+  },
+  {
+    "id": "Q9",
+    "question": "How do I set a response status code in FastAPI?",
+    "expected_pages": ["response-status-code"],
+    "should_abstain": false
+  },
+  {
+    "id": "Q10",
+    "question": "How do I control returned fields using a response model?",
+    "expected_pages": ["response-model"],
+    "should_abstain": false
+  },
+  {
+    "id": "Q11",
+    "question": "How can I read cookies in FastAPI?",
+    "expected_pages": ["cookie-params"],
+    "should_abstain": false
+  },
+  {
+    "id": "Q12",
+    "question": "How can I access request headers in FastAPI?",
+    "expected_pages": ["header-params"],
+    "should_abstain": false
+  },
+  {
+    "id": "Q13",
+    "question": "How do I upload a file in FastAPI?",
+    "expected_pages": ["request-files"],
+    "should_abstain": false
+  },
+  {
+    "id": "Q14",
+    "question": "How do I create nested Pydantic models?",
+    "expected_pages": ["body-nested-models"],
+    "should_abstain": false
+  },
+  {
+    "id": "Q15",
+    "question": "How do I accept form data in FastAPI?",
+    "expected_pages": ["request-forms"],
+    "should_abstain": false
+  }
+]

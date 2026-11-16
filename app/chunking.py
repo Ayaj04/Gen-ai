@@ -34,7 +34,7 @@ def split_text(text, chunk_size=120, overlap=25):
     return chunks
 
 
-def build_chunks():
+def build_chunks(chunk_size=120, overlap=25):
     """Load raw documents and preserve source metadata."""
 
     all_chunks = []
@@ -59,7 +59,8 @@ def build_chunks():
         text = clean_text(raw_text)
         page = raw_file.stem
 
-        for index, part in enumerate(split_text(text)):
+        for index, part in enumerate(
+            split_text(text, chunk_size, overlap)):
             all_chunks.append({
                 "id": f"{page}-{index:04d}",
                 "text": part,
