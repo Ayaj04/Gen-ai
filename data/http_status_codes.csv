@@ -1,0 +1,15 @@
+code,name,meaning,typical_fastapi_cause,fix_hint
+200,OK,Request succeeded,Endpoint completed successfully,No fix needed
+201,Created,Resource created,POST endpoint created a resource,Return the created resource details
+204,No Content,Request succeeded without a response body,Endpoint intentionally returns no content,Do not send a response body
+400,Bad Request,Request is invalid,Custom request validation or business rule failed,Check the request and validation logic
+401,Unauthorized,Authentication is required or invalid,Missing or invalid authentication credentials,Provide valid authentication credentials
+403,Forbidden,Access is denied,Authenticated user lacks permission,Check access permissions
+404,Not Found,Requested resource does not exist,Unknown route or HTTPException for a missing record,Check the URL or record ID
+405,Method Not Allowed,HTTP method is unsupported for this path,Using POST on a GET-only endpoint,Use the correct HTTP method
+409,Conflict,Request conflicts with current state,Duplicate resource or application conflict,Check for duplicates
+422,Unprocessable Content,Request data cannot be processed,FastAPI or Pydantic request validation failed,Check required fields and data types
+429,Too Many Requests,Request rate limit exceeded,Rate limiting middleware or upstream service rejected requests,Reduce request frequency
+500,Internal Server Error,Unexpected server failure,Unhandled application exception,Inspect server logs and fix the exception
+502,Bad Gateway,Invalid response from upstream service,Proxy or upstream dependency failure,Check the upstream service
+503,Service Unavailable,Service is temporarily unavailable,Dependency failure or planned downtime,Check service health and retry later

@@ -253,3 +253,61 @@ Run:
     python -m eval.run_eval
 
 Detailed results are saved to eval/eval_runs.json.
+
+## Day 09 - Tool-Using AI Agent
+
+FastAPIGuide now includes a hand-written agent and a
+LangGraph workflow.
+
+### Agent Tools
+
+1. http_status_explainer
+   - Reads local data/http_status_codes.csv
+   - Uses dictionary lookup
+   - No external API calls
+
+2. RAG search
+   - Retrieves FastAPI documentation from ChromaDB
+   - Uses Groq to generate answers with citations
+
+### LangGraph Workflow
+
+Plan -> Approval -> Execute -> Save Memory
+
+The graph uses InMemorySaver for short-term memory.
+The user must approve each tool call before execution.
+
+### Run the agent
+
+Start the API:
+
+    python -m uvicorn app.main:app --reload
+
+Open:
+
+http://127.0.0.1:8000/docs
+
+### POST /agent
+
+Start a question:
+
+    {
+      "thread_id": "demo1",
+      "question": "What does HTTP 404 mean?"
+    }
+
+Approve the pending action:
+
+    {
+      "thread_id": "demo1",
+      "approve": true
+    }
+
+Reject with approve: false.
+
+### Limitations
+
+- Tool selection currently uses Python rules.
+- Memory is lost when the server restarts.
+- RAG answers depend on the available documentation.
+- Human approval is required for every tool call.

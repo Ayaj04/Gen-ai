@@ -6,6 +6,8 @@ from typing import Literal
 from app.llm import ChatResponse, generate_answer
 from app.vectorstore import search_semantic
 from app.rag import ask_question
+from langgraph.types import Command
+from app.graph import agent_graph
 
 from app.records import (
     load_records,
@@ -197,4 +199,88 @@ def ask(payload: AskRequest):
             status_code=502,
             detail="Unable to generate an answer.",
         ) from exc
+
+
+# Day 09 - LangGraph agent
+
+class AgentRequest(BaseModel):
+    thread_id: str = Field(min_length=1, max_length=100)
+    question: str | None = Field(default=None, min_length=3)
+    approve: bool | None = None
+
+
+@app.post("/agent")
+def agent_endpoint(payload: AgentRequest):
+
+    # Provide either a question or an approval decision.
+    if (payload.question is None) == (payload.approve is None):
+        raise HTTPException(
+            status_code=400,
+            detail="Provide either question or approve",
+        )
+
+    config = {
+        "configurable": {
+            "thread_id": payload.thread_id
+        }
+    }
+
+    try:
+        snapshot = agent_graph.get_state(config)
+        pending = bool(snapshot.next)
+
+        if payload.question is not None:
+            if pending:
+                raise HTTPException(
+                    status_code=409,
+                    detail="Resolve pending approval first",
+                )
+
+            result = agent_graph.invoke(
+                {"question": payload.question},
+                config=config,
+            )
+
+        else:
+            if not pending:
+                raise HTTPException(
+                    status_code=409,
+                    detail="No pending approval for this thread",
+                )
+
+            result = agent_graph.invoke(
+                Command(resume=payload.approve),
+                config=config,
+            )
+
+    except HTTPException:
+        raise
+
+    except RuntimeError as exc:
+        raise HTTPException(
+            status_code=503,
+            detail="Agent dependency unavailable",
+        ) from exc
+
+    except Exception as exc:
+        raise HTTPException(
+            status_code=502,
+            detail="Agent execution failed",
+        ) from exc
+
+    # Return the pending approval request
+    if "__interrupt__" in result:
+        return {
+            "status": "approval_required",
+            "thread_id": payload.thread_id,
+            "approval": result["__interrupt__"][0].value,
+        }
+
+    return {
+        "status": "completed",
+        "thread_id": payload.thread_id,
+        "result": result["result"],
+        "memory_count": len(result.get("history", [])),
+    }
+
 
