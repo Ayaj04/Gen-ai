@@ -311,3 +311,39 @@ Reject with approve: false.
 - Memory is lost when the server restarts.
 - RAG answers depend on the available documentation.
 - Human approval is required for every tool call.
+
+
+## Day 10 - Streamlit UI and Checkpoint 2
+
+### Run the application
+
+Start the FastAPI backend:
+
+    python -m uvicorn app.main:app --reload
+
+Start the Streamlit frontend in another terminal:
+
+    python -m streamlit run ui/app.py
+
+Open http://localhost:8501
+
+### Features
+
+- Interactive chat using /ask or /agent
+- Documentation citations
+- Thumbs up/down feedback saved locally
+- Six profile-chip filters
+- Live-updating scheme cards
+- Explanation of matching profile fields
+
+### Screenshot
+
+![Day 10 Streamlit UI](docs/checkpoint2_streamlit.png)
+
+### Limitations
+
+Scheme profile filtering is a demonstration until
+real eligibility data is verified and incorporated.
+
+The existing FastAPIGuide RAG chatbot answers FastAPI
+documentation questions, not government-scheme questions.

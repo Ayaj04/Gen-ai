@@ -1,0 +1,3 @@
+name,age_band,gender,occupation,income_band,category,residence,source_url,eligibility_notes
+DEMO ONLY - Student Support,18-25,Any,Student,Below 2 lakh,Any,Rural,,Fictional example for testing UI filters
+DEMO ONLY - Business Support,26-40,Any,Self-employed,2-5 lakh,Any,Urban,,Fictional example for testing UI filters

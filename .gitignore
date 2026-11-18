@@ -19,3 +19,5 @@ __pycache__/
 
 # Local Chroma vector database
 data/chroma/
+
+data/feedback.jsonl
