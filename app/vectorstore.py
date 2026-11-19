@@ -6,7 +6,6 @@ import chromadb
 from app.chunking import build_chunks
 from app.embed import embed_texts
 
-
 ROOT = Path(__file__).resolve().parent.parent
 DB_PATH = ROOT / "data" / "chroma"
 COLLECTION_NAME = "fastapiguide_chunks"

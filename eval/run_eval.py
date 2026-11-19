@@ -6,7 +6,6 @@ from pathlib import Path
 from app.rag import ask_question
 from app.vectorstore import index_documents, search_semantic
 
-
 ROOT = Path(__file__).resolve().parent.parent
 EVAL_FILE = ROOT / "eval" / "eval_set.json"
 OUTPUT_FILE = ROOT / "eval" / "eval_runs.json"

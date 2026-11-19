@@ -2,9 +2,8 @@
 from pathlib import Path
 from urllib.parse import urlparse
 
-from app.records import load_records
 from app.ingest import clean_text
-
+from app.records import load_records
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW_DIR = ROOT / "data" / "raw"

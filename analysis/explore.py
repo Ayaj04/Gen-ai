@@ -5,9 +5,6 @@ os.environ["OMP_NUM_THREADS"] = "1"
 
 import pandas as pd
 
-
-import pandas as pd
-
 from app.records import load_records
 
 

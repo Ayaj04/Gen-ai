@@ -3,7 +3,6 @@ from langgraph.types import Command
 
 from app.graph import agent_graph
 
-
 config = {
     "configurable": {
         "thread_id": "day09-test"

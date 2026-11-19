@@ -347,3 +347,15 @@ real eligibility data is verified and incorporated.
 
 The existing FastAPIGuide RAG chatbot answers FastAPI
 documentation questions, not government-scheme questions.
+
+## Run with Docker
+
+### Requirements
+- Docker Desktop
+- Docker Compose
+- A configured `.env` file
+
+### Start the application
+
+```bash
+docker compose up --build

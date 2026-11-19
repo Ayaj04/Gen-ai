@@ -6,7 +6,6 @@ from sklearn.metrics.pairwise import cosine_similarity
 from app.chunking import build_chunks
 from app.embed import embed_texts
 
-
 ROOT = Path(__file__).resolve().parent.parent
 OUTPUT = ROOT / "eval" / "search_results.md"
 

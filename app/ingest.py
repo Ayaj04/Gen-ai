@@ -7,7 +7,6 @@ from pathlib import Path
 
 from app.models import Record
 
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 RAW_DIR = BASE_DIR / "data" / "raw"
 OUTPUT_FILE = BASE_DIR / "data" / "records.json"

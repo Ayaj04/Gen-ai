@@ -9,3 +9,6 @@ sentence-transformers
 chromadb
 langgraph
 streamlit>=1.42
+pytest
+httpx
+ruff

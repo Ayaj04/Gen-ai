@@ -1,19 +1,19 @@
 
-from app.smart_search import rank_records
-from fastapi import FastAPI, HTTPException, Query
-from pydantic import BaseModel, Field
 from typing import Literal
-from app.llm import ChatResponse, generate_answer
-from app.vectorstore import search_semantic
-from app.rag import ask_question
-from langgraph.types import Command
-from app.graph import agent_graph
 
+from fastapi import FastAPI, HTTPException, Query
+from langgraph.types import Command
+from pydantic import BaseModel, Field
+
+from app.graph import agent_graph
+from app.llm import ChatResponse, generate_answer
+from app.rag import ask_question
 from app.records import (
-    load_records,
     get_by_id,
-    search as keyword_search,
+    load_records,
 )
+from app.smart_search import rank_records
+from app.vectorstore import search_semantic
 
 app = FastAPI(
     title="FastAPIGuide",

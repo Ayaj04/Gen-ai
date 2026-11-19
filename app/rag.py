@@ -9,7 +9,6 @@ from groq import Groq
 
 from app.vectorstore import search_semantic
 
-
 ROOT = Path(__file__).resolve().parent.parent
 load_dotenv(ROOT / ".env")
 

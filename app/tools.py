@@ -3,7 +3,6 @@ import csv
 from functools import lru_cache
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parent.parent
 
 CSV_FILE = ROOT / "data" / "http_status_codes.csv"

@@ -1,16 +1,19 @@
 
 import csv
+import os
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from uuid import uuid4
 
 import requests
 import streamlit as st
 
-
 ROOT = Path(__file__).resolve().parent.parent
-API_URL = "http://127.0.0.1:8000"
+API_URL = os.getenv(
+    "API_URL",
+    "http://127.0.0.1:8000"
+)
 FEEDBACK_FILE = ROOT / "data" / "feedback.jsonl"
 
 st.set_page_config(
@@ -58,7 +61,7 @@ def save_feedback(message_id, rating):
     entry = {
         "message_id": message_id,
         "rating": "up" if rating == 1 else "down",
-        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "timestamp": datetime.now(UTC).isoformat(),
     }
 
     with FEEDBACK_FILE.open("a", encoding="utf-8") as file:

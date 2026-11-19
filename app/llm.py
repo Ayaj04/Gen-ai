@@ -10,7 +10,6 @@ from pydantic import BaseModel
 from app.records import load_records
 from app.smart_search import rank_records
 
-
 ROOT = Path(__file__).resolve().parent.parent
 
 load_dotenv(ROOT / ".env")

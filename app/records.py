@@ -1,5 +1,5 @@
 # from data.sample_records import records as sample_records
-import json 
+import json
 from pathlib import Path
 
 DATA_FILE = (
