@@ -12,40 +12,38 @@ def test_records_limit(client):
     assert len(data["records"]) == 2
 
 
-def test_records_limit(client):
-    response = client.get("/records?limit=2")
-
-    assert response.status_code == 200
-
-    data = response.json()
-
-    assert isinstance(data, dict)
-    assert "total" in data
-    assert "records" in data
-    assert len(data["records"]) == 2
-
-
 def test_missing_record_returns_404(client):
     response = client.get("/records/999999")
 
     assert response.status_code == 404
 
 
-def fake_ask_question(question, top_k=3):
+def fake_ask_question(*args, **kwargs):
     return {
-        "answer": "FastAPI uses HTTPException for HTTP errors.",
+        "answer": "FastAPI is a Python web framework.",
         "citations": [
             {
                 "number": 1,
-                "page": "Handling Errors",
-                "title": "Handling Errors",
-                "source": (
-                    "https://fastapi.tiangolo.com/tutorial/"
-                    "handling-errors/"
-                ),
+                "page": "First Steps",
             }
         ],
     }
+
+
+def test_ask_endpoint(client, monkeypatch):
+    monkeypatch.setattr(
+        "app.main.ask_question",
+        fake_ask_question,
+    )
+
+    response = client.post(
+        "/ask",
+        json={
+            "question": "What is FastAPI?",
+        },
+    )
+
+    assert response.status_code == 200
 
     # Replace the function used by the /ask endpoint.
 
