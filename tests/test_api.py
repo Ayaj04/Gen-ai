@@ -18,35 +18,22 @@ def test_missing_record_returns_404(client):
     assert response.status_code == 404
 
 
+
 def fake_ask_question(*args, **kwargs):
     return {
-        "answer": "FastAPI is a Python web framework.",
+        "answer": "Use HTTPException to handle errors in FastAPI.",
         "citations": [
             {
                 "number": 1,
-                "page": "First Steps",
+                "page": "Handling Errors",
+                "title": "Handling Errors - FastAPI",
+                "source": "https://fastapi.tiangolo.com/tutorial/handling-errors/"
             }
-        ],
+        ]
     }
 
 
 def test_ask_endpoint(client, monkeypatch):
-    monkeypatch.setattr(
-        "app.main.ask_question",
-        fake_ask_question,
-    )
-
-    response = client.post(
-        "/ask",
-        json={
-            "question": "What is FastAPI?",
-        },
-    )
-
-    assert response.status_code == 200
-
-    # Replace the function used by the /ask endpoint.
-
     monkeypatch.setattr(
         "app.main.ask_question",
         fake_ask_question,
@@ -65,4 +52,6 @@ def test_ask_endpoint(client, monkeypatch):
     data = response.json()
 
     assert "HTTPException" in data["answer"]
-    assert len(data["citations"]) > 0
+    assert len(data["citations"]) == 1
+    assert data["citations"][0]["title"] == "Handling Errors - FastAPI"
+
