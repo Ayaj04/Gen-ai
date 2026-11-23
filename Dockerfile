@@ -8,7 +8,7 @@ ENV OPENBLAS_NUM_THREADS=1 \
     MKL_NUM_THREADS=1 \
     TOKENIZERS_PARALLELISM=false
 
-COPY requirements.txt .
+COPY app/requirements.txt ./requirements.txt
 
 RUN pip install --no-cache-dir -r requirements.txt
 

@@ -1,0 +1,10 @@
+requests
+fastapi
+uvicorn
+pandas
+scikit-learn
+groq
+python-dotenv
+chromadb
+langgraph
+streamlit>=1.42

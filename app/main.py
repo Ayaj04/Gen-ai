@@ -58,6 +58,9 @@ questions = []
 class QuestionIn(BaseModel):
     question: str = Field(min_length=3)
 
+@app.get("/")
+def root():
+    return {"message" : "Welcome to my website"}
 
 # 1. Health check
 @app.get("/health")

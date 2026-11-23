@@ -1,10 +1,2 @@
-requests
-fastapi
-uvicorn
-pandas
-scikit-learn
-groq
-python-dotenv
-chromadb
-langgraph
-streamlit>=1.42
+# Shared entry point for CI, Docker and local setup.
+-r app/requirements.txt
