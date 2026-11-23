@@ -4,11 +4,9 @@ from pathlib import Path
 from typing import Literal
 
 from dotenv import load_dotenv
-from groq import Groq
 from pydantic import BaseModel
 
 from app.records import load_records
-from app.smart_search import rank_records
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -30,6 +28,9 @@ def generate_answer(
     question: str,
     prompt_version: Literal["v1", "v2"] = "v2",
 ) -> ChatResponse:
+    from groq import Groq
+
+    from app.smart_search import rank_records
 
     api_key = os.getenv("GROQ_API_KEY")
 

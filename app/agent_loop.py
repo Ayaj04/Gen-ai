@@ -1,7 +1,6 @@
 
 import re
 
-from app.rag import ask_question
 from app.tools import http_status_explainer
 
 
@@ -45,6 +44,8 @@ def run_agent(question: str):
         }
 
     # Tool 2: Day 08 RAG system
+    from app.rag import ask_question
+
     rag_result = ask_question(question, top_k=3)
 
     return {

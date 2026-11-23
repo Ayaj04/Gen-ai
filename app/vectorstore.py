@@ -1,18 +1,16 @@
 
 from pathlib import Path
-
-import chromadb
-
-from app.chunking import build_chunks
-from app.embed import embed_texts
+from threading import Lock
 
 ROOT = Path(__file__).resolve().parent.parent
 DB_PATH = ROOT / "data" / "chroma"
 COLLECTION_NAME = "fastapiguide_chunks"
+INDEX_LOCK = Lock()
 
 
 def get_collection():
     """Open the local persistent Chroma collection."""
+    import chromadb
 
     client = chromadb.PersistentClient(path=str(DB_PATH))
 
@@ -23,6 +21,8 @@ def get_collection():
 
 def index_documents(chunk_size=120, overlap=25):
     """Embed and index all documentation chunks."""
+    from app.chunking import build_chunks
+    from app.embed import embed_texts
 
     chunks = build_chunks(
         chunk_size=chunk_size,
@@ -74,6 +74,7 @@ def index_documents(chunk_size=120, overlap=25):
 
 def search_semantic(question, limit=5):
     """Find the closest documentation chunks."""
+    from app.embed import embed_texts
 
     if not question.strip():
         return []
@@ -81,9 +82,14 @@ def search_semantic(question, limit=5):
     collection = get_collection()
 
     if collection.count() == 0:
-        raise RuntimeError(
-            "Chroma index is empty. Run python -m app.vectorstore"
-        )
+        # A clean deployment does not contain the git-ignored local index.
+        # Build it only when semantic retrieval is actually requested.
+        with INDEX_LOCK:
+            collection = get_collection()
+
+            if collection.count() == 0:
+                index_documents()
+                collection = get_collection()
 
     query_vector = embed_texts([question])[0]
 

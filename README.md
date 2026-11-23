@@ -167,7 +167,7 @@ documentation dataset.
 ## Day 07 - Semantic Search
 
 FastAPIGuide now supports embedding-based semantic search
-using Sentence Transformers and ChromaDB.
+using ChromaDB's ONNX MiniLM embedding runtime.
 
 ### Create document chunks
 
@@ -360,3 +360,32 @@ documentation questions, not government-scheme questions.
 
 ```bash
 docker compose up --build
+```
+
+## Deploy on Render (512 MB free instance)
+
+The API uses lazy loading for its heavier AI dependencies:
+
+- API startup, `/health`, and record endpoints do not import ChromaDB,
+  ONNX Runtime, scikit-learn, or LangGraph.
+- TF-IDF search is loaded when a text-search endpoint is first used.
+- ChromaDB and its ONNX MiniLM model are loaded when semantic search or
+  RAG is first used. PyTorch and Sentence Transformers are not installed.
+- LangGraph is built when the agent endpoint is first used.
+
+Create a Render Web Service from this repository and use the included
+Dockerfile. Set `GROQ_API_KEY` (and optionally `GROQ_MODEL`) in Render's
+environment settings. The container command already binds to `0.0.0.0`
+and uses Render's `PORT` value. Configure `/health` as the health-check
+path.
+
+The Docker build downloads and verifies the ONNX MiniLM files, but does not
+load them into API memory. `data/chroma` is excluded because the local index
+is git-ignored. On a clean deployment, the first semantic-search or RAG
+request loads the cached model and builds the index from `data/raw`. That
+first request is slower; later requests reuse the process-cached model and
+the index stored on the container filesystem.
+
+Use a single worker on the free instance. Each additional worker is a
+separate process and would load its own copy of the model when an AI
+endpoint is called.

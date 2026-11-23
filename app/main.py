@@ -1,19 +1,51 @@
 
+from functools import lru_cache
 from typing import Literal
 
 from fastapi import FastAPI, HTTPException, Query
-from langgraph.types import Command
 from pydantic import BaseModel, Field
 
-from app.graph import agent_graph
-from app.llm import ChatResponse, generate_answer
-from app.rag import ask_question
+from app.llm import ChatResponse
 from app.records import (
     get_by_id,
     load_records,
 )
-from app.smart_search import rank_records
-from app.vectorstore import search_semantic
+
+
+def rank_records(*args, **kwargs):
+    """Load scikit-learn only when a text search is requested."""
+    from app.smart_search import rank_records as rank_records_impl
+
+    return rank_records_impl(*args, **kwargs)
+
+
+def generate_answer(*args, **kwargs):
+    """Load chat dependencies only when the chat endpoint is used."""
+    from app.llm import generate_answer as generate_answer_impl
+
+    return generate_answer_impl(*args, **kwargs)
+
+
+def search_semantic(*args, **kwargs):
+    """Load Chroma and the embedding stack on first semantic search."""
+    from app.vectorstore import search_semantic as search_semantic_impl
+
+    return search_semantic_impl(*args, **kwargs)
+
+
+def ask_question(*args, **kwargs):
+    """Load retrieval and LLM dependencies only for a RAG request."""
+    from app.rag import ask_question as ask_question_impl
+
+    return ask_question_impl(*args, **kwargs)
+
+
+@lru_cache(maxsize=1)
+def get_agent_graph():
+    """Build the stateful LangGraph workflow only when it is needed."""
+    from app.graph import agent_graph
+
+    return agent_graph
 
 app = FastAPI(
     title="FastAPIGuide",
@@ -226,6 +258,7 @@ def agent_endpoint(payload: AgentRequest):
     }
 
     try:
+        agent_graph = get_agent_graph()
         snapshot = agent_graph.get_state(config)
         pending = bool(snapshot.next)
 
@@ -247,6 +280,8 @@ def agent_endpoint(payload: AgentRequest):
                     status_code=409,
                     detail="No pending approval for this thread",
                 )
+
+            from langgraph.types import Command
 
             result = agent_graph.invoke(
                 Command(resume=payload.approve),
