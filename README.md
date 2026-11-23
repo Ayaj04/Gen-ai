@@ -12,6 +12,17 @@ backend, a Streamlit learning interface, and an approval-based tool agent.
 [Watch the demo video](docs/demo.webm?raw=true) ·
 [Resume bullets](docs/resume.md)
 
+## Day 14 checkpoint
+
+Day 14 S1/S2 revalidates the production safeguards and project showcase introduced
+on Day 13. Ruff and all **36 tests passed** again. A new local smoke check measured
+`/health` at **3.761 ms median over 10 requests**; an overlong question and an
+instruction-override attempt both returned **HTTP 422 with zero provider tokens**.
+The original real-Groq cache measurements remain labeled separately below.
+
+[Day 14 checklist and verification](docs/day14.md) ·
+[Fresh health/validation measurements](eval/day14_checks.json)
+
 ## The problem
 
 Beginners often know what they want to build but struggle to find the right
@@ -78,7 +89,7 @@ Stateful agent responses bypass the answer cache.
 | Recorded retrieval evaluation | 13/14 in-scope questions retrieved an expected page | [Day 08 saved evaluation](eval/eval_runs.json); not rerun for Day 13 |
 | Recorded cited answers | 12/14 in-scope questions produced a non-refusal with valid source citations | Same saved evaluation; not an independent factual-accuracy score |
 | Out-of-scope question | Q6 abstention passed for both tested configurations | AWS ECS / Terraform / CI-CD is outside the corpus |
-| Regression suite | 36 tests passed; Ruff passed | Day 13 local run, Python 3.14.5; CI targets Python 3.11 |
+| Regression suite | 36 tests passed; Ruff passed | Revalidated for Day 14, Python 3.14.5; CI targets Python 3.11 |
 | Public deployment | `/health` and `/docs`: HTTP 200; 21 records | Render, verified 23 November 2026 |
 | Live local `/ask` sample | 3,756.658 ms uncached; 3.111 ms median across 5 cache hits | Real Groq call; see Production notes |
 
@@ -132,6 +143,12 @@ resume the same thread with `{"thread_id":"demo1","approve":true}`.
 | `POST /agent` | Tool plan, human approval, execution, and thread memory |
 
 ## Production notes
+
+Day 14 local health/validation recheck: 10 successful `/health` requests
+(3.761 ms median); 501-character question rejected in 7.636 ms; injection
+attempt rejected in 3.795 ms. Both rejections returned HTTP 422, and all 12
+requests used zero provider tokens. [Raw recheck samples](eval/day14_checks.json).
+This recheck did not make new Groq calls or remeasure uncached/cached LLM latency.
 
 ### Measured latency and tokens
 
@@ -210,14 +227,14 @@ python -m eval.run_production_eval --live
 
 This is a learning deployment: no authentication, rate limiter, durable agent
 memory, or production load/SLA validation. Logs go to the server's log stream.
-The live Render service must be rebuilt/redeployed to receive Day 13 changes;
-the local measurements above do not imply that the new code is already deployed.
+Rebuild/redeploy Render when updating the service. Local measurements do not
+establish that the live service runs this source revision.
 
 ## Docker and Render
 
 ```powershell
-docker build -t fastapiguide-option-a:day13 .
-docker run --rm -p 8000:8000 --env-file .env fastapiguide-option-a:day13
+docker build -t fastapiguide-option-a:day14 .
+docker run --rm -p 8000:8000 --env-file .env fastapiguide-option-a:day14
 ```
 
 Or run backend and frontend with `docker compose up --build`.

@@ -1,0 +1,270 @@
+{
+  "measured_at_utc": "2026-11-23T17:05:26.075581+00:00",
+  "python": "3.14.5",
+  "environment": "Windows local FastAPI TestClient, single process; not Render load testing",
+  "provider": "none; validation and health checks only",
+  "model": null,
+  "health_median_client_ms": 3.761,
+  "summary": [
+    {
+      "endpoint": "/ask",
+      "case": "input-limit",
+      "samples": 1,
+      "median_client_ms": 7.636,
+      "total_tokens": [
+        0
+      ]
+    },
+    {
+      "endpoint": "/ask",
+      "case": "injection",
+      "samples": 1,
+      "median_client_ms": 3.795,
+      "total_tokens": [
+        0
+      ]
+    }
+  ],
+  "requests": [
+    {
+      "name": "health-1",
+      "endpoint": "/health",
+      "status": 200,
+      "client_ms": 5.35,
+      "telemetry": {
+        "event": "request",
+        "request_id": "618e01e799c044b6a9411f3cc7b691e7",
+        "method": "GET",
+        "route": "/health",
+        "status": 200,
+        "latency_ms": 3.419,
+        "llm_calls": 0,
+        "cache": "bypass",
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "usage_known": true
+      }
+    },
+    {
+      "name": "health-2",
+      "endpoint": "/health",
+      "status": 200,
+      "client_ms": 2.814,
+      "telemetry": {
+        "event": "request",
+        "request_id": "0917ce8daa9b48de8d1008e11443e61b",
+        "method": "GET",
+        "route": "/health",
+        "status": 200,
+        "latency_ms": 1.394,
+        "llm_calls": 0,
+        "cache": "bypass",
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "usage_known": true
+      }
+    },
+    {
+      "name": "health-3",
+      "endpoint": "/health",
+      "status": 200,
+      "client_ms": 3.461,
+      "telemetry": {
+        "event": "request",
+        "request_id": "f6b9f552bd3a41a29eb7fc8be27b3ffb",
+        "method": "GET",
+        "route": "/health",
+        "status": 200,
+        "latency_ms": 1.93,
+        "llm_calls": 0,
+        "cache": "bypass",
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "usage_known": true
+      }
+    },
+    {
+      "name": "health-4",
+      "endpoint": "/health",
+      "status": 200,
+      "client_ms": 2.928,
+      "telemetry": {
+        "event": "request",
+        "request_id": "de9184a4f8354d089b79cbde93348075",
+        "method": "GET",
+        "route": "/health",
+        "status": 200,
+        "latency_ms": 1.478,
+        "llm_calls": 0,
+        "cache": "bypass",
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "usage_known": true
+      }
+    },
+    {
+      "name": "health-5",
+      "endpoint": "/health",
+      "status": 200,
+      "client_ms": 3.873,
+      "telemetry": {
+        "event": "request",
+        "request_id": "4c1df1b58cbf4cbdb4e74fa02a981101",
+        "method": "GET",
+        "route": "/health",
+        "status": 200,
+        "latency_ms": 2.158,
+        "llm_calls": 0,
+        "cache": "bypass",
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "usage_known": true
+      }
+    },
+    {
+      "name": "health-6",
+      "endpoint": "/health",
+      "status": 200,
+      "client_ms": 3.121,
+      "telemetry": {
+        "event": "request",
+        "request_id": "7aff0647bde14dbe8a178f60c813271e",
+        "method": "GET",
+        "route": "/health",
+        "status": 200,
+        "latency_ms": 1.78,
+        "llm_calls": 0,
+        "cache": "bypass",
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "usage_known": true
+      }
+    },
+    {
+      "name": "health-7",
+      "endpoint": "/health",
+      "status": 200,
+      "client_ms": 3.721,
+      "telemetry": {
+        "event": "request",
+        "request_id": "3c1678c10c524951893867968af09b1b",
+        "method": "GET",
+        "route": "/health",
+        "status": 200,
+        "latency_ms": 2.146,
+        "llm_calls": 0,
+        "cache": "bypass",
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "usage_known": true
+      }
+    },
+    {
+      "name": "health-8",
+      "endpoint": "/health",
+      "status": 200,
+      "client_ms": 3.801,
+      "telemetry": {
+        "event": "request",
+        "request_id": "c7bf5a908a184304b2dee7f097ef559b",
+        "method": "GET",
+        "route": "/health",
+        "status": 200,
+        "latency_ms": 1.928,
+        "llm_calls": 0,
+        "cache": "bypass",
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "usage_known": true
+      }
+    },
+    {
+      "name": "health-9",
+      "endpoint": "/health",
+      "status": 200,
+      "client_ms": 4.767,
+      "telemetry": {
+        "event": "request",
+        "request_id": "7b901defcdec4a7082bd06b22660eabd",
+        "method": "GET",
+        "route": "/health",
+        "status": 200,
+        "latency_ms": 2.39,
+        "llm_calls": 0,
+        "cache": "bypass",
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "usage_known": true
+      }
+    },
+    {
+      "name": "health-10",
+      "endpoint": "/health",
+      "status": 200,
+      "client_ms": 5.013,
+      "telemetry": {
+        "event": "request",
+        "request_id": "8965e5aaae5c41f7b79201b4a250d47f",
+        "method": "GET",
+        "route": "/health",
+        "status": 200,
+        "latency_ms": 2.757,
+        "llm_calls": 0,
+        "cache": "bypass",
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "usage_known": true
+      }
+    },
+    {
+      "name": "input-limit",
+      "endpoint": "/ask",
+      "status": 422,
+      "client_ms": 7.636,
+      "telemetry": {
+        "event": "request",
+        "request_id": "1609f421ec8c42d29b05ef0e1ce0fab2",
+        "method": "POST",
+        "route": "/ask",
+        "status": 422,
+        "latency_ms": 4.538,
+        "llm_calls": 0,
+        "cache": "bypass",
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "usage_known": true
+      }
+    },
+    {
+      "name": "injection",
+      "endpoint": "/ask",
+      "status": 422,
+      "client_ms": 3.795,
+      "telemetry": {
+        "event": "request",
+        "request_id": "6fa7e007ba5743ab9ad7fe06665c93b6",
+        "method": "POST",
+        "route": "/ask",
+        "status": 422,
+        "latency_ms": 1.79,
+        "llm_calls": 0,
+        "cache": "bypass",
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "usage_known": true
+      }
+    }
+  ]
+}
