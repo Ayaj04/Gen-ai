@@ -6,7 +6,9 @@ from typing import Literal
 from dotenv import load_dotenv
 from pydantic import BaseModel
 
+from app.observability import tracked_completion
 from app.records import load_records
+from app.safety import is_prompt_injection
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -43,7 +45,8 @@ def generate_answer(
 
     # Retrieve relevant official documentation records
     records = load_records()
-    matches = rank_records(question, records, limit=3)
+    matches = [record for record in rank_records(question, records, limit=3)
+               if not is_prompt_injection(str(record))]
 
     if not matches:
         return ChatResponse(
@@ -73,9 +76,9 @@ def generate_answer(
         f"RETRIEVED DOCUMENTATION:\n{context}"
     )
 
-    client = Groq(api_key=api_key, timeout=30.0)
+    client = Groq(api_key=api_key, timeout=30.0, max_retries=0)
 
-    completion = client.chat.completions.create(
+    completion = tracked_completion(client,
         model=os.getenv("GROQ_MODEL", "openai/gpt-oss-20b"),
         messages=[
             {"role": "system", "content": system_prompt},
@@ -83,6 +86,7 @@ def generate_answer(
         ],
         response_format={"type": "json_object"},
         temperature=0.2,
+        max_completion_tokens=1024,
     )
 
     result = completion.choices[0].message.content
