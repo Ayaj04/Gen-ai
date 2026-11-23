@@ -5,8 +5,8 @@ from typing import Literal
 from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel, Field
 
-from llm import ChatResponse
-from records import (
+from app.llm import ChatResponse
+from app.records import (
     get_by_id,
     load_records,
 )
