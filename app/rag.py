@@ -5,9 +5,6 @@ import re
 from pathlib import Path
 
 from dotenv import load_dotenv
-from groq import Groq
-
-from app.vectorstore import search_semantic
 
 ROOT = Path(__file__).resolve().parent.parent
 load_dotenv(ROOT / ".env")
@@ -40,6 +37,8 @@ def ask_question(question: str, top_k: int = 3):
         return unknown_response()
 
     # Step 1: Retrieve the most relevant document chunks.
+    from app.vectorstore import search_semantic
+
     hits = search_semantic(question, limit=top_k)
 
     if not hits:
@@ -92,6 +91,8 @@ Return JSON with exactly:
 
     if not api_key:
         raise RuntimeError("GROQ_API_KEY is not configured")
+
+    from groq import Groq
 
     client = Groq(api_key=api_key, timeout=30.0)
 

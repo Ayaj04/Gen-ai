@@ -5,7 +5,6 @@ pandas
 scikit-learn
 groq
 python-dotenv
-sentence-transformers
 chromadb
 langgraph
 streamlit>=1.42

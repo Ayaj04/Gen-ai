@@ -7,15 +7,17 @@ os.environ["OPENBLAS_NUM_THREADS"] = "1"
 os.environ["OMP_NUM_THREADS"] = "1"
 os.environ["MKL_NUM_THREADS"] = "1"
 
-from sentence_transformers import SentenceTransformer
-
-MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
+MODEL_NAME = "all-MiniLM-L6-v2 (Chroma ONNX)"
 
 
 @lru_cache(maxsize=1)
 def get_model():
-    """Load the embedding model once per Python process."""
-    return SentenceTransformer(MODEL_NAME, device="cpu")
+    """Create Chroma's ONNX MiniLM embedder once, on first use."""
+    from chromadb.utils.embedding_functions import (
+        DefaultEmbeddingFunction,
+    )
+
+    return DefaultEmbeddingFunction()
 
 
 def embed_texts(texts):
@@ -24,14 +26,9 @@ def embed_texts(texts):
     if not texts:
         return []
 
-    embeddings = get_model().encode(
-        texts,
-        batch_size=16,
-        normalize_embeddings=True,
-        show_progress_bar=False,
-    )
+    embeddings = get_model()(texts)
 
-    return embeddings.tolist()
+    return [embedding.tolist() for embedding in embeddings]
 
 
 if __name__ == "__main__":

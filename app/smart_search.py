@@ -1,13 +1,13 @@
 
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
-
-
 def rank_records(
     query: str,
     records: list[dict],
     limit: int = 5,
 ) -> list[dict]:
+
+    # scikit-learn pulls in NumPy and SciPy, so keep it out of API startup.
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    from sklearn.metrics.pairwise import cosine_similarity
 
     if not query.strip() or not records:
         return []
