@@ -333,21 +333,31 @@ Open http://localhost:8501
 - Interactive chat using /ask or /agent
 - Documentation citations
 - Thumbs up/down feedback saved locally
-- Six profile-chip filters
-- Live-updating scheme cards
-- Explanation of matching profile fields
+- FastAPI Snippet card with copyable Python examples from cited documentation
+- Source file path, pinned source link, and Open in docs navigation
+- Browse 20 bundled official tutorial examples or download a selected example
 
 ### Screenshot
 
 ![Day 10 Streamlit UI](docs/checkpoint2_streamlit.png)
 
+[Documentation chat and feedback](docs/checkpoint2_chat.png) ·
+[Phone-width snippet controls](docs/checkpoint2_streamlit_mobile.png)
+
 ### Limitations
 
-Scheme profile filtering is a demonstration until
-real eligibility data is verified and incorporated.
+The Snippet card matches the latest answer's citations to bundled tutorial
+examples. When no example matches, it explains how to browse examples instead.
+Browse mode is explicitly labeled and does not imply a chat citation.
+Form/file examples require python-multipart; email fields may need email-validator.
+The official examples are pinned in data/snippets.json and retain their
+MIT license in data/FASTAPI_SNIPPETS_LICENSE.txt. This tutor answers FastAPI
+documentation questions only.
 
-The existing FastAPIGuide RAG chatbot answers FastAPI
-documentation questions, not government-scheme questions.
+Day 10 verification: switch to Snippet card, choose Handling Errors, copy the
+code, inspect the source path, and use Open in docs. The committed checkpoint
+image above is captured from the running Streamlit app. The day-10 Git tag
+marks the feedback fix.
 
 ## Run with Docker
 

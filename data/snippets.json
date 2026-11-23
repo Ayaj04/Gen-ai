@@ -1,0 +1,182 @@
+[
+  {
+    "page": "body-fields",
+    "source": "docs_src/body_fields/tutorial001.py",
+    "revision": "05e6df7e906c3decba377c37548019973f40bf15",
+    "code": "from typing import Annotated\n\nfrom fastapi import Body, FastAPI\nfrom pydantic import BaseModel, Field\n\napp = FastAPI()\n\n\nclass Item(BaseModel):\n    name: str\n    description: str | None = Field(\n        default=None, title=\"The description of the item\", max_length=300\n    )\n    price: float = Field(gt=0, description=\"The price must be greater than zero\")\n    tax: float | None = None\n\n\n@app.put(\"/items/{item_id}\")\nasync def update_item(item_id: int, item: Annotated[Item, Body(embed=True)]):\n    results = {\"item_id\": item_id, \"item\": item}\n    return results\n",
+    "title": "Body - Fields",
+    "docs_url": "https://fastapi.tiangolo.com/tutorial/body-fields/",
+    "source_url": "https://github.com/fastapi/fastapi/blob/05e6df7e906c3decba377c37548019973f40bf15/docs_src/body_fields/tutorial001.py"
+  },
+  {
+    "page": "body-multiple-params",
+    "source": "docs_src/body_multiple_params/tutorial001.py",
+    "revision": "05e6df7e906c3decba377c37548019973f40bf15",
+    "code": "from typing import Annotated\n\nfrom fastapi import FastAPI, Path\nfrom pydantic import BaseModel\n\napp = FastAPI()\n\n\nclass Item(BaseModel):\n    name: str\n    description: str | None = None\n    price: float\n    tax: float | None = None\n\n\n@app.put(\"/items/{item_id}\")\nasync def update_item(\n    item_id: Annotated[int, Path(title=\"The ID of the item to get\", ge=0, le=1000)],\n    q: str | None = None,\n    item: Item | None = None,\n):\n    results = {\"item_id\": item_id}\n    if q:\n        results.update({\"q\": q})\n    if item:\n        results.update({\"item\": item})\n    return results\n",
+    "title": "Body - Multiple Parameters",
+    "docs_url": "https://fastapi.tiangolo.com/tutorial/body-multiple-params/",
+    "source_url": "https://github.com/fastapi/fastapi/blob/05e6df7e906c3decba377c37548019973f40bf15/docs_src/body_multiple_params/tutorial001.py"
+  },
+  {
+    "page": "body-nested-models",
+    "source": "docs_src/body_nested_models/tutorial001.py",
+    "revision": "05e6df7e906c3decba377c37548019973f40bf15",
+    "code": "from fastapi import FastAPI\nfrom pydantic import BaseModel\n\napp = FastAPI()\n\n\nclass Item(BaseModel):\n    name: str\n    description: str | None = None\n    price: float\n    tax: float | None = None\n    tags: list = []\n\n\n@app.put(\"/items/{item_id}\")\nasync def update_item(item_id: int, item: Item):\n    results = {\"item_id\": item_id, \"item\": item}\n    return results\n",
+    "title": "Body - Nested Models",
+    "docs_url": "https://fastapi.tiangolo.com/tutorial/body-nested-models/",
+    "source_url": "https://github.com/fastapi/fastapi/blob/05e6df7e906c3decba377c37548019973f40bf15/docs_src/body_nested_models/tutorial001.py"
+  },
+  {
+    "page": "body",
+    "source": "docs_src/body/tutorial001.py",
+    "revision": "05e6df7e906c3decba377c37548019973f40bf15",
+    "code": "from fastapi import FastAPI\nfrom pydantic import BaseModel\n\n\nclass Item(BaseModel):\n    name: str\n    description: str | None = None\n    price: float\n    tax: float | None = None\n\n\napp = FastAPI()\n\n\n@app.post(\"/items/\")\nasync def create_item(item: Item):\n    return item\n",
+    "title": "Request Body",
+    "docs_url": "https://fastapi.tiangolo.com/tutorial/body/",
+    "source_url": "https://github.com/fastapi/fastapi/blob/05e6df7e906c3decba377c37548019973f40bf15/docs_src/body/tutorial001.py"
+  },
+  {
+    "page": "cookie-params",
+    "source": "docs_src/cookie_params/tutorial001.py",
+    "revision": "05e6df7e906c3decba377c37548019973f40bf15",
+    "code": "from typing import Annotated\n\nfrom fastapi import Cookie, FastAPI\n\napp = FastAPI()\n\n\n@app.get(\"/items/\")\nasync def read_items(ads_id: Annotated[str | None, Cookie()] = None):\n    return {\"ads_id\": ads_id}\n",
+    "title": "Cookie Parameters",
+    "docs_url": "https://fastapi.tiangolo.com/tutorial/cookie-params/",
+    "source_url": "https://github.com/fastapi/fastapi/blob/05e6df7e906c3decba377c37548019973f40bf15/docs_src/cookie_params/tutorial001.py"
+  },
+  {
+    "page": "encoder",
+    "source": "docs_src/encoder/tutorial001.py",
+    "revision": "05e6df7e906c3decba377c37548019973f40bf15",
+    "code": "from datetime import datetime\n\nfrom fastapi import FastAPI\nfrom fastapi.encoders import jsonable_encoder\nfrom pydantic import BaseModel\n\nfake_db = {}\n\n\nclass Item(BaseModel):\n    title: str\n    timestamp: datetime\n    description: str | None = None\n\n\napp = FastAPI()\n\n\n@app.put(\"/items/{id}\")\ndef update_item(id: str, item: Item):\n    json_compatible_item_data = jsonable_encoder(item)\n    fake_db[id] = json_compatible_item_data\n",
+    "title": "JSON Compatible Encoder",
+    "docs_url": "https://fastapi.tiangolo.com/tutorial/encoder/",
+    "source_url": "https://github.com/fastapi/fastapi/blob/05e6df7e906c3decba377c37548019973f40bf15/docs_src/encoder/tutorial001.py"
+  },
+  {
+    "page": "extra-data-types",
+    "source": "docs_src/extra_data_types/tutorial001.py",
+    "revision": "05e6df7e906c3decba377c37548019973f40bf15",
+    "code": "from datetime import datetime, time, timedelta\nfrom typing import Annotated\nfrom uuid import UUID\n\nfrom fastapi import Body, FastAPI\n\napp = FastAPI()\n\n\n@app.put(\"/items/{item_id}\")\nasync def read_items(\n    item_id: UUID,\n    start_datetime: Annotated[datetime, Body()],\n    end_datetime: Annotated[datetime, Body()],\n    process_after: Annotated[timedelta, Body()],\n    repeat_at: Annotated[time | None, Body()] = None,\n):\n    start_process = start_datetime + process_after\n    duration = end_datetime - start_process\n    return {\n        \"item_id\": item_id,\n        \"start_datetime\": start_datetime,\n        \"end_datetime\": end_datetime,\n        \"process_after\": process_after,\n        \"repeat_at\": repeat_at,\n        \"start_process\": start_process,\n        \"duration\": duration,\n    }\n",
+    "title": "Extra Data Types",
+    "docs_url": "https://fastapi.tiangolo.com/tutorial/extra-data-types/",
+    "source_url": "https://github.com/fastapi/fastapi/blob/05e6df7e906c3decba377c37548019973f40bf15/docs_src/extra_data_types/tutorial001.py"
+  },
+  {
+    "page": "first-steps",
+    "source": "docs_src/first_steps/tutorial001.py",
+    "revision": "05e6df7e906c3decba377c37548019973f40bf15",
+    "code": "from fastapi import FastAPI\n\napp = FastAPI()\n\n\n@app.get(\"/\")\nasync def root():\n    return {\"message\": \"Hello World\"}\n",
+    "title": "First Steps",
+    "docs_url": "https://fastapi.tiangolo.com/tutorial/first-steps/",
+    "source_url": "https://github.com/fastapi/fastapi/blob/05e6df7e906c3decba377c37548019973f40bf15/docs_src/first_steps/tutorial001.py"
+  },
+  {
+    "page": "handling-errors",
+    "source": "docs_src/handling_errors/tutorial001.py",
+    "revision": "05e6df7e906c3decba377c37548019973f40bf15",
+    "code": "from fastapi import FastAPI, HTTPException\n\napp = FastAPI()\n\nitems = {\"foo\": \"The Foo Wrestlers\"}\n\n\n@app.get(\"/items/{item_id}\")\nasync def read_item(item_id: str):\n    if item_id not in items:\n        raise HTTPException(status_code=404, detail=\"Item not found\")\n    return {\"item\": items[item_id]}\n",
+    "title": "Handling Errors",
+    "docs_url": "https://fastapi.tiangolo.com/tutorial/handling-errors/",
+    "source_url": "https://github.com/fastapi/fastapi/blob/05e6df7e906c3decba377c37548019973f40bf15/docs_src/handling_errors/tutorial001.py"
+  },
+  {
+    "page": "header-params",
+    "source": "docs_src/header_params/tutorial001.py",
+    "revision": "05e6df7e906c3decba377c37548019973f40bf15",
+    "code": "from typing import Annotated\n\nfrom fastapi import FastAPI, Header\n\napp = FastAPI()\n\n\n@app.get(\"/items/\")\nasync def read_items(user_agent: Annotated[str | None, Header()] = None):\n    return {\"User-Agent\": user_agent}\n",
+    "title": "Header Parameters",
+    "docs_url": "https://fastapi.tiangolo.com/tutorial/header-params/",
+    "source_url": "https://github.com/fastapi/fastapi/blob/05e6df7e906c3decba377c37548019973f40bf15/docs_src/header_params/tutorial001.py"
+  },
+  {
+    "page": "path-params-numeric-validations",
+    "source": "docs_src/path_params_numeric_validations/tutorial001.py",
+    "revision": "05e6df7e906c3decba377c37548019973f40bf15",
+    "code": "from typing import Annotated\n\nfrom fastapi import FastAPI, Path, Query\n\napp = FastAPI()\n\n\n@app.get(\"/items/{item_id}\")\nasync def read_items(\n    item_id: Annotated[int, Path(title=\"The ID of the item to get\")],\n    q: Annotated[str | None, Query(alias=\"item-query\")] = None,\n):\n    results = {\"item_id\": item_id}\n    if q:\n        results.update({\"q\": q})\n    return results\n",
+    "title": "Path Parameters and Numeric Validations",
+    "docs_url": "https://fastapi.tiangolo.com/tutorial/path-params-numeric-validations/",
+    "source_url": "https://github.com/fastapi/fastapi/blob/05e6df7e906c3decba377c37548019973f40bf15/docs_src/path_params_numeric_validations/tutorial001.py"
+  },
+  {
+    "page": "path-params",
+    "source": "docs_src/path_params/tutorial001.py",
+    "revision": "05e6df7e906c3decba377c37548019973f40bf15",
+    "code": "from fastapi import FastAPI\n\napp = FastAPI()\n\n\n@app.get(\"/items/{item_id}\")\nasync def read_item(item_id):\n    return {\"item_id\": item_id}\n",
+    "title": "Path Parameters",
+    "docs_url": "https://fastapi.tiangolo.com/tutorial/path-params/",
+    "source_url": "https://github.com/fastapi/fastapi/blob/05e6df7e906c3decba377c37548019973f40bf15/docs_src/path_params/tutorial001.py"
+  },
+  {
+    "page": "query-param-models",
+    "source": "docs_src/query_param_models/tutorial001.py",
+    "revision": "05e6df7e906c3decba377c37548019973f40bf15",
+    "code": "from typing import Annotated, Literal\n\nfrom fastapi import FastAPI, Query\nfrom pydantic import BaseModel, Field\n\napp = FastAPI()\n\n\nclass FilterParams(BaseModel):\n    limit: int = Field(100, gt=0, le=100)\n    offset: int = Field(0, ge=0)\n    order_by: Literal[\"created_at\", \"updated_at\"] = \"created_at\"\n    tags: list[str] = []\n\n\n@app.get(\"/items/\")\nasync def read_items(filter_query: Annotated[FilterParams, Query()]):\n    return filter_query\n",
+    "title": "Query Parameter Models",
+    "docs_url": "https://fastapi.tiangolo.com/tutorial/query-param-models/",
+    "source_url": "https://github.com/fastapi/fastapi/blob/05e6df7e906c3decba377c37548019973f40bf15/docs_src/query_param_models/tutorial001.py"
+  },
+  {
+    "page": "query-params-str-validations",
+    "source": "docs_src/query_params_str_validations/tutorial001.py",
+    "revision": "05e6df7e906c3decba377c37548019973f40bf15",
+    "code": "from fastapi import FastAPI\n\napp = FastAPI()\n\n\n@app.get(\"/items/\")\nasync def read_items(q: str | None = None):\n    results = {\"items\": [{\"item_id\": \"Foo\"}, {\"item_id\": \"Bar\"}]}\n    if q:\n        results.update({\"q\": q})\n    return results\n",
+    "title": "Query Parameters and String Validations",
+    "docs_url": "https://fastapi.tiangolo.com/tutorial/query-params-str-validations/",
+    "source_url": "https://github.com/fastapi/fastapi/blob/05e6df7e906c3decba377c37548019973f40bf15/docs_src/query_params_str_validations/tutorial001.py"
+  },
+  {
+    "page": "query-params",
+    "source": "docs_src/query_params/tutorial001.py",
+    "revision": "05e6df7e906c3decba377c37548019973f40bf15",
+    "code": "from fastapi import FastAPI\n\napp = FastAPI()\n\nfake_items_db = [{\"item_name\": \"Foo\"}, {\"item_name\": \"Bar\"}, {\"item_name\": \"Baz\"}]\n\n\n@app.get(\"/items/\")\nasync def read_item(skip: int = 0, limit: int = 10):\n    return fake_items_db[skip : skip + limit]\n",
+    "title": "Query Parameters",
+    "docs_url": "https://fastapi.tiangolo.com/tutorial/query-params/",
+    "source_url": "https://github.com/fastapi/fastapi/blob/05e6df7e906c3decba377c37548019973f40bf15/docs_src/query_params/tutorial001.py"
+  },
+  {
+    "page": "request-files",
+    "source": "docs_src/request_files/tutorial001.py",
+    "revision": "05e6df7e906c3decba377c37548019973f40bf15",
+    "code": "from typing import Annotated\n\nfrom fastapi import FastAPI, File, UploadFile\n\napp = FastAPI()\n\n\n@app.post(\"/files/\")\nasync def create_file(file: Annotated[bytes, File()]):\n    return {\"file_size\": len(file)}\n\n\n@app.post(\"/uploadfile/\")\nasync def create_upload_file(file: UploadFile):\n    return {\"filename\": file.filename}\n",
+    "title": "Request Files",
+    "docs_url": "https://fastapi.tiangolo.com/tutorial/request-files/",
+    "source_url": "https://github.com/fastapi/fastapi/blob/05e6df7e906c3decba377c37548019973f40bf15/docs_src/request_files/tutorial001.py"
+  },
+  {
+    "page": "request-forms",
+    "source": "docs_src/request_forms/tutorial001.py",
+    "revision": "05e6df7e906c3decba377c37548019973f40bf15",
+    "code": "from typing import Annotated\n\nfrom fastapi import FastAPI, Form\n\napp = FastAPI()\n\n\n@app.post(\"/login/\")\nasync def login(username: Annotated[str, Form()], password: Annotated[str, Form()]):\n    return {\"username\": username}\n",
+    "title": "Form Data",
+    "docs_url": "https://fastapi.tiangolo.com/tutorial/request-forms/",
+    "source_url": "https://github.com/fastapi/fastapi/blob/05e6df7e906c3decba377c37548019973f40bf15/docs_src/request_forms/tutorial001.py"
+  },
+  {
+    "page": "response-model",
+    "source": "docs_src/response_model/tutorial001_01.py",
+    "revision": "05e6df7e906c3decba377c37548019973f40bf15",
+    "code": "from fastapi import FastAPI\nfrom pydantic import BaseModel\n\napp = FastAPI()\n\n\nclass Item(BaseModel):\n    name: str\n    description: str | None = None\n    price: float\n    tax: float | None = None\n    tags: list[str] = []\n\n\n@app.post(\"/items/\")\nasync def create_item(item: Item) -> Item:\n    return item\n\n\n@app.get(\"/items/\")\nasync def read_items() -> list[Item]:\n    return [\n        Item(name=\"Portal Gun\", price=42.0),\n        Item(name=\"Plumbus\", price=32.0),\n    ]\n",
+    "title": "Response Model - Return Type",
+    "docs_url": "https://fastapi.tiangolo.com/tutorial/response-model/",
+    "source_url": "https://github.com/fastapi/fastapi/blob/05e6df7e906c3decba377c37548019973f40bf15/docs_src/response_model/tutorial001_01.py"
+  },
+  {
+    "page": "response-status-code",
+    "source": "docs_src/response_status_code/tutorial001.py",
+    "revision": "05e6df7e906c3decba377c37548019973f40bf15",
+    "code": "from fastapi import FastAPI\n\napp = FastAPI()\n\n\n@app.post(\"/items/\", status_code=201)\nasync def create_item(name: str):\n    return {\"name\": name}\n",
+    "title": "Response Status Code",
+    "docs_url": "https://fastapi.tiangolo.com/tutorial/response-status-code/",
+    "source_url": "https://github.com/fastapi/fastapi/blob/05e6df7e906c3decba377c37548019973f40bf15/docs_src/response_status_code/tutorial001.py"
+  },
+  {
+    "page": "schema-extra-example",
+    "source": "docs_src/schema_extra_example/tutorial001.py",
+    "revision": "05e6df7e906c3decba377c37548019973f40bf15",
+    "code": "from fastapi import FastAPI\nfrom pydantic import BaseModel\n\napp = FastAPI()\n\n\nclass Item(BaseModel):\n    name: str\n    description: str | None = None\n    price: float\n    tax: float | None = None\n\n    model_config = {\n        \"json_schema_extra\": {\n            \"examples\": [\n                {\n                    \"name\": \"Foo\",\n                    \"description\": \"A very nice Item\",\n                    \"price\": 35.4,\n                    \"tax\": 3.2,\n                }\n            ]\n        }\n    }\n\n\n@app.put(\"/items/{item_id}\")\nasync def update_item(item_id: int, item: Item):\n    results = {\"item_id\": item_id, \"item\": item}\n    return results\n",
+    "title": "Declare Request Example Data",
+    "docs_url": "https://fastapi.tiangolo.com/tutorial/schema-extra-example/",
+    "source_url": "https://github.com/fastapi/fastapi/blob/05e6df7e906c3decba377c37548019973f40bf15/docs_src/schema_extra_example/tutorial001.py"
+  }
+]
