@@ -1,5 +1,20 @@
-![CI](https://github.com/OWNER/REPOSITORY/actions/workflows/ci.yml/badge.svg)
+[![CI](https://github.com/Ayaj04/Gen-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/Ayaj04/Gen-ai/actions/workflows/ci.yml)
 # FastAPIGuide
+
+## Day 12 - Live deployment
+
+FastAPIGuide is deployed publicly on Render using Docker.
+
+- Live API: https://gen-fast-api.onrender.com/
+- Health check: https://gen-fast-api.onrender.com/health
+- Swagger API documentation: https://gen-fast-api.onrender.com/docs
+
+Public deployment verified on 23 November 2026: `/health` returned HTTP 200
+with `{"status":"ok","records":21}`, and `/docs` returned HTTP 200 with
+the FastAPIGuide Swagger UI page.
+
+The GitHub Actions workflow runs Ruff, Pytest, and a Docker image build.
+The CI badge above links to this repository's workflow runs.
 
 ## Product
 FastAPIGuide is a beginner-friendly project that helps students understand FastAPI and the basics of building APIs using Python.
