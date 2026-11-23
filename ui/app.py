@@ -1,4 +1,3 @@
-import csv
 import json
 import os
 from datetime import UTC, datetime
@@ -7,6 +6,8 @@ from uuid import uuid4
 
 import requests
 import streamlit as st
+
+from ui.snippets import cited_snippets, load_snippets
 
 ROOT = Path(__file__).resolve().parent.parent
 API_URL = os.getenv(
@@ -67,9 +68,9 @@ def save_feedback(message_id, rating):
         file.write(json.dumps(entry) + "\n")
 
 
-chat_tab, profile_tab = st.tabs([
+chat_tab, snippet_tab = st.tabs([
     "💬 Documentation chat",
-    "🧩 Profile chips",
+    "Snippet card",
 ])
 
 
@@ -192,125 +193,59 @@ with chat_tab:
         st.rerun()
 
 
-with profile_tab:
-    st.subheader("Find schemes for your profile")
-    st.caption(
-        "Profile matching is a preliminary filter, "
-        "not a final eligibility decision."
+with snippet_tab:
+    st.subheader("Snippet card")
+    st.caption("Copy a runnable example from the official FastAPI tutorial.")
+
+    latest_answer = next(
+        (message for message in reversed(st.session_state.messages)
+         if message["role"] == "assistant"),
+        {},
     )
+    citations = latest_answer.get("citations", [])
 
-    age = st.pills(
-        "Age band",
-        ["Below 18", "18-25", "26-40", "41-60", "60+"],
+    try:
+        snippets = load_snippets()
+    except (OSError, ValueError):
+        snippets = []
+        st.error("Tutorial examples could not be loaded. Restart the app or restore data/snippets.json.")
+
+    scope = st.radio(
+        "Snippet source",
+        ["Latest cited docs", "Browse tutorial examples"],
+        index=0 if citations else 1,
+        horizontal=True,
     )
+    choices = cited_snippets(citations, snippets) if scope == "Latest cited docs" else snippets
 
-    gender = st.pills(
-        "Gender",
-        ["Female", "Male", "Other"],
-    )
-
-    occupation = st.pills(
-        "Occupation",
-        [
-            "Student", "Farmer", "Self-employed",
-            "Employed", "Unemployed", "Other",
-        ],
-    )
-
-    income = st.pills(
-        "Annual income band",
-        ["Below 2 lakh", "2-5 lakh", "Above 5 lakh"],
-    )
-
-    category = st.pills(
-        "Category",
-        ["General", "OBC", "SC", "ST", "Other"],
-    )
-
-    residence = st.pills(
-        "Area",
-        ["Rural", "Urban"],
-    )
-
-    profile = {
-        "age_band": age,
-        "gender": gender,
-        "occupation": occupation,
-        "income_band": income,
-        "category": category,
-        "residence": residence,
-    }
-
-    schemes_file = ROOT / "data" / "schemes.csv"
-
-    if schemes_file.exists():
-        with schemes_file.open(
-            "r", encoding="utf-8-sig", newline=""
-        ) as file:
-            schemes = list(csv.DictReader(file))
-    else:
-        schemes = []
-
-    st.divider()
-    st.subheader("Matching scheme cards")
-
-    match_count = 0
-
-    for scheme in schemes:
-        reasons = []
-        matches = True
-
-        for field, selected in profile.items():
-            if selected is None:
-                continue
-
-            allowed = {
-                value.strip().lower()
-                for value in scheme.get(field, "").split("|")
-                if value.strip()
-            }
-
-            if (
-                selected.lower() not in allowed
-                and "any" not in allowed
-            ):
-                matches = False
-                break
-
-            reasons.append(f"{field}: {selected}")
-
-        if not matches:
-            continue
-
-        match_count += 1
-
-        with st.container(border=True):
-            st.markdown(f"### {scheme['name']}")
-
-            if reasons:
-                st.success(
-                    "Why you match the selected filters: "
-                    + ", ".join(reasons)
-                )
-            else:
-                st.info(
-                    "Select profile chips to see match reasons."
-                )
-
-            st.write(scheme.get("eligibility_notes", ""))
-
-            source = scheme.get("source_url", "")
-
-            if source.startswith("https://"):
-                st.link_button(
-                    "Check official eligibility",
-                    source,
-                )
-
-    if match_count == 0:
+    if scope == "Latest cited docs" and not choices:
         st.info(
-            "No schemes matched all selected filters. "
-            "Try changing a profile chip."
+            "No bundled Python example matches the latest answer's citations. "
+            "Ask a FastAPI question in Documentation chat, or choose Browse tutorial examples."
         )
-
-    st.caption(f"Showing {match_count} matching scheme cards.")
+    elif choices:
+        if scope == "Browse tutorial examples":
+            st.info("Browsing tutorial examples. These are not citations from a chat answer.")
+        selected = st.selectbox(
+            "Documentation example",
+            range(len(choices)),
+            index=next((i for i, item in enumerate(choices)
+                        if item["page"] == "handling-errors"), 0),
+            format_func=lambda index: choices[index]["title"],
+        )
+        snippet = choices[selected]
+        with st.container(border=True):
+            st.markdown(f"### {snippet['title']}")
+            st.caption(f"Source file: {snippet['source']}")
+            st.code(snippet["code"], language="python")
+            st.caption("Use the copy button in the top-right corner of the code block.")
+            st.link_button("Open in docs", snippet["docs_url"])
+            st.link_button("View source file", snippet["source_url"])
+            st.download_button(
+                "Download example",
+                data=snippet["code"],
+                file_name=f"{snippet['page']}.py",
+                mime="text/x-python",
+            )
+            st.caption("Save as main.py, install the example's dependencies, then run: uvicorn main:app --reload")
+            st.caption("Form/file examples need python-multipart; email fields may need email-validator.")
