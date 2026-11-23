@@ -5,8 +5,8 @@ from typing import Literal
 from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel, Field
 
-from app.llm import ChatResponse
-from app.records import (
+from llm import ChatResponse
+from records import (
     get_by_id,
     load_records,
 )
@@ -58,6 +58,9 @@ questions = []
 class QuestionIn(BaseModel):
     question: str = Field(min_length=3)
 
+@app.get("/")
+def root():
+    return {"message" : "Welcome to my website"}
 
 # 1. Health check
 @app.get("/health")

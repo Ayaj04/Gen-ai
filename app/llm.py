@@ -6,7 +6,7 @@ from typing import Literal
 from dotenv import load_dotenv
 from pydantic import BaseModel
 
-from app.records import load_records
+from records import load_records
 
 ROOT = Path(__file__).resolve().parent.parent
 
